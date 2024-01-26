@@ -4,12 +4,9 @@
 
 #include "Library.h"
 
-Library::Library(std::vector<Book>& books) {
+Library::Library(std::vector<BookEntry> bookEntries) : bookEntries{std::move(bookEntries)} {}
 
-}
-
-Library::Library() {
-}
+Library::Library() = default;
 
 std::vector<BookEntry> Library::mergeSort() {
     return std::vector<BookEntry>();
@@ -22,11 +19,22 @@ std::vector<BookEntry> Library::insertionSort() {
 
 
 std::string Library::toString() {
-    return std::string();
+    std::stringstream ss;
+    ss << "Library with " << bookEntries.size() << " entries:\n";
+    for (BookEntry& entry : bookEntries) {
+        ss << entry.book.toString(false) << ": " << entry.numOfCopies << " copies\n";
+    }
+    return ss.str();
 }
 
-void Library::addBook(const Book &book) {
-
+void Library::addBook(Book book, unsigned int numOfCopies) {
+    for(BookEntry& entry : bookEntries) {
+       if(book.equals(entry.book)) {
+           entry.numOfCopies += numOfCopies;
+           return;
+       }
+    }
+    bookEntries.push_back({book, numOfCopies});
 }
 
 void Library::removeBook(const Book &book) {
@@ -35,6 +43,10 @@ void Library::removeBook(const Book &book) {
 
 void Library::editBook(const Book &book) {
 
+}
+
+const std::vector<BookEntry> &Library::getBookEntries() const {
+    return bookEntries;
 }
 
 template<typename T>

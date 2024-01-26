@@ -28,6 +28,8 @@ public:
     unsigned int getReleaseYear() const;
 
     const std::set<Genre> &getGenres() const;
+
+    bool equals(const Book& book);
 };
 
 

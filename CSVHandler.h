@@ -22,6 +22,6 @@ namespace CSVHandler {
 
     std::set<Genre> deserializeGenres(std::string& genresString);
 
-    void exportFile(const std::string &path, const std::vector<BookEntry>& bookEntries);
+    void exportFile(const std::string &path, const Library &library);
 }
 #endif //LIBRARY_CSVHANDLER_H

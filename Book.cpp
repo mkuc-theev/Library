@@ -18,17 +18,7 @@ Book::Book(std::string title, std::string author, unsigned int numOfPages, unsig
 std::string Book::toString(bool singleLine) {
     std::stringstream ss;
     if (singleLine) {
-        ss << "{ Title: \"" << title
-           << "\", Author: " << author
-           << ", Number of pages: " << numOfPages
-           << ", Release year: " << releaseYear
-           << ", Genres: [ ";
-        std::set<Genre>::iterator itr;
-        for (itr = genres.begin(); itr != genres.end(); ++itr) {
-            ss << GenreToString(*itr)
-               << (itr == --genres.end() ? " " : ", ");
-        }
-        ss << "] }";
+        ss << title << " by " << author << " (" << releaseYear << ")";
     } else {
         ss << "{ " << std::endl
            << "    Title: \"" << title << "\"," << std::endl
@@ -63,4 +53,14 @@ unsigned int Book::getReleaseYear() const {
 
 const std::set<Genre> &Book::getGenres() const {
     return genres;
+}
+
+bool Book::equals(const Book &book) {
+    return (
+            title == book.getTitle() &&
+            author == book.getAuthor() &&
+            numOfPages == book.getNumOfPages() &&
+            releaseYear == book.getReleaseYear() &&
+            genres == book.getGenres()
+            );
 }

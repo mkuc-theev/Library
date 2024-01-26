@@ -56,10 +56,10 @@ namespace CSVHandler {
         }
     }
 
-    void exportFile(const std::string &path, const std::vector<BookEntry>& bookEntries) {
+    void exportFile(const std::string &path, const Library &library) {
         std::ofstream outputFile(path);
         if(outputFile.is_open()) {
-            for (const BookEntry &book : bookEntries) {
+            for (const BookEntry &book : library.getBookEntries()) {
                 outputFile << serializeBookEntry(book);
             }
             outputFile.close();
