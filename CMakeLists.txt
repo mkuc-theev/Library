@@ -8,8 +8,6 @@ include_directories(.)
 add_executable(Library
         Book.cpp
         Book.h
-        BookRepository.cpp
-        BookRepository.h
         Genre.h
         main.cpp
         Genre.cpp
