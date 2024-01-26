@@ -8,6 +8,7 @@
 
 #include <string>
 #include <set>
+#include <sstream>
 
 class Book {
 private:
@@ -17,6 +18,16 @@ private:
 public:
     Book(std::string title, std::string author, unsigned int numOfPages, unsigned int releaseYear, std::set<Genre> genres);
     std::string toString(bool singleLine);
+
+    const std::string &getTitle() const;
+
+    const std::string &getAuthor() const;
+
+    unsigned int getNumOfPages() const;
+
+    unsigned int getReleaseYear() const;
+
+    const std::set<Genre> &getGenres() const;
 };
 
 

@@ -44,3 +44,23 @@ std::string Book::toString(bool singleLine) {
     }
     return ss.str();
 }
+
+const std::string &Book::getTitle() const {
+    return title;
+}
+
+const std::string &Book::getAuthor() const {
+    return author;
+}
+
+unsigned int Book::getNumOfPages() const {
+    return numOfPages;
+}
+
+unsigned int Book::getReleaseYear() const {
+    return releaseYear;
+}
+
+const std::set<Genre> &Book::getGenres() const {
+    return genres;
+}

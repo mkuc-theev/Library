@@ -12,4 +12,8 @@ add_executable(Library
         BookRepository.h
         Genre.h
         main.cpp
-        Genre.cpp)
+        Genre.cpp
+        CSVHandler.cpp
+        CSVHandler.h
+        Library.cpp
+        Library.h)
