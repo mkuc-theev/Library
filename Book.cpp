@@ -3,7 +3,6 @@
 //
 
 #include "Book.h"
-
 #include <utility>
 #include <sstream>
 
