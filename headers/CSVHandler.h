@@ -16,9 +16,9 @@ namespace CSVHandler {
 
     BookEntry deserializeBookEntry(std::string& csvEntry);
 
-    std::vector<BookEntry> ingestFile(const std::string &path);
+    std::vector<BookEntry> importFile(const std::string &path);
 
-    std::string serializeGenres(const Book &book);
+    std::string serializeGenres(const BookEntry &entry);
 
     std::set<Genre> deserializeGenres(std::string& genresString);
 

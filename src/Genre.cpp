@@ -1,7 +1,7 @@
 //
 // Created by steam on 1/26/2024.
 //
-#include "Genre.h"
+#include "headers/Genre.h"
 
 std::string GenreToString(Genre genre) {
     switch(genre) {
@@ -15,7 +15,7 @@ std::string GenreToString(Genre genre) {
         case Genre::SELF_HELP: return "Self Help";
         case Genre::THRILLER: return "Thriller";
         case Genre::CRIME: return "Crime";
-        case Genre::COMIC: return "Comic Book";
+        case Genre::COMIC: return "Comic BookEntry";
         case Genre::POETRY: return "Poetry";
         case Genre::PLAY: return "Theatrical Play";
         case Genre::COOKING: return "Cookbook";

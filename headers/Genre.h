@@ -25,7 +25,7 @@ const std::map<std::string, Genre> genreStringMap {
         {"Self Help", Genre::SELF_HELP},
         {"Thriller", Genre::THRILLER},
         {"Crime", Genre::CRIME},
-        {"Comic Book", Genre::COMIC},
+        {"Comic BookEntry", Genre::COMIC},
         {"Poetry", Genre::POETRY},
         {"Theatrical Play", Genre::PLAY},
         {"Cookbook", Genre::COOKING},

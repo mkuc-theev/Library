@@ -3,45 +3,40 @@
 //
 
 
-#include "CSVHandler.h"
+#include "headers/CSVHandler.h"
 namespace CSVHandler {
-    std::string serializeBookEntry(const BookEntry &bookEntry) {
-        Book book = bookEntry.book;
+    std::string serializeBookEntry(const BookEntry &entry) {
         std::stringstream ss;
-        ss << book.getTitle() << ','
-           << book.getAuthor() << ','
-           << book.getNumOfPages() << ','
-           << book.getReleaseYear() << ','
-           << serializeGenres(book) << ','
-           << bookEntry.numOfCopies << std::endl;
+        ss << entry.getTitle() << '\t'
+           << entry.getAuthor() << '\t'
+           << entry.getNumOfPages() << '\t'
+           << entry.getReleaseYear() << '\t'
+           << entry.getNumOfCopies() << '\t'
+           << serializeGenres(entry) << std::endl;
+
         return ss.str();
     }
 
     BookEntry deserializeBookEntry(std::string& csvEntry) {
         std::vector<std::string> tokens;
         size_t pos;
-        while ((pos = csvEntry.find(',')) != std::string::npos) {
+        while ((pos = csvEntry.find('\t')) != std::string::npos) {
             tokens.push_back(csvEntry.substr(0, pos));
             csvEntry.erase(0, pos + 1);
         }
         tokens.push_back(csvEntry);
 
-        BookEntry result = {
-                Book(
-                        tokens.at(0),
-                        tokens.at(1),
-                        std::stoi(tokens.at(2), nullptr, 10),
-                        std::stoi(tokens.at(3), nullptr, 10),
-                        deserializeGenres(tokens.at(4))
-                        ),
-                        static_cast<unsigned int>(std::stoi(tokens.at(5), nullptr, 10))
-
-        };
-
-        return result;
+        return BookEntry(
+                tokens.at(0),
+                tokens.at(1),
+                std::stoi(tokens.at(2), nullptr, 10),
+                std::stoi(tokens.at(3), nullptr, 10),
+                std::stoi(tokens.at(4), nullptr, 10),
+                deserializeGenres(tokens.at(5))
+        );
     }
 
-    std::vector<BookEntry> ingestFile(const std::string &path) {
+    std::vector<BookEntry> importFile(const std::string &path) {
         std::vector<BookEntry> result;
         std::ifstream inputFile(path);
         std::string line;
@@ -59,8 +54,8 @@ namespace CSVHandler {
     void exportFile(const std::string &path, const Library &library) {
         std::ofstream outputFile(path);
         if(outputFile.is_open()) {
-            for (const BookEntry &book : library.getBookEntries()) {
-                outputFile << serializeBookEntry(book);
+            for (const BookEntry &entry : library.getBookEntries()) {
+                outputFile << serializeBookEntry(entry);
             }
             outputFile.close();
         } else {
@@ -68,8 +63,8 @@ namespace CSVHandler {
         }
     }
 
-    std::string serializeGenres(const Book &book) {
-        const std::set<Genre>& genres = book.getGenres();
+    std::string serializeGenres(const BookEntry &entry) {
+        const std::set<Genre>& genres = entry.getGenres();
         std::stringstream ss;
         std::set<Genre>::iterator itr;
         for (itr = genres.begin(); itr != genres.end(); ++itr) {
