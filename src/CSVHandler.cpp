@@ -51,7 +51,7 @@ namespace CSVHandler {
         }
     }
 
-    void exportFile(const std::string &path, const Library &library) {
+    void exportFile(const std::string &path, const BookRepository &library) {
         std::ofstream outputFile(path);
         if(outputFile.is_open()) {
             for (const BookEntry &entry : library.getBookEntries()) {

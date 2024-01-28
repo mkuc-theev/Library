@@ -2,22 +2,22 @@
 // Created by steam on 1/26/2024.
 //
 
-#ifndef LIBRARY_LIBRARY_H
-#define LIBRARY_LIBRARY_H
+#ifndef LIBRARY_BOOKREPOSITORY_H
+#define LIBRARY_BOOKREPOSITORY_H
 
 #include "BookEntry.h"
 #include <vector>
 #include <functional>
 
-class Library {
+class BookRepository {
 private:
     std::vector<BookEntry> bookEntries;
 
     std::vector<BookEntry> mergeSort();
     std::vector<BookEntry> insertionSort();
 public:
-    explicit Library (std::vector<BookEntry> bookEntries);
-    Library();
+    explicit BookRepository (std::vector<BookEntry> bookEntries);
+    BookRepository();
     std::string toString();
     void addBookEntry(BookEntry newEntry);
     void removeBookEntry(BookEntry &book, unsigned int numOfCopies);
@@ -27,4 +27,4 @@ public:
 };
 
 
-#endif //LIBRARY_LIBRARY_H
+#endif //LIBRARY_BOOKREPOSITORY_H

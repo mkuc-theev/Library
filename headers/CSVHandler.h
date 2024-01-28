@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "Library.h"
+#include "BookRepository.h"
 #include "Genre.h"
 
 namespace CSVHandler {
@@ -22,6 +22,6 @@ namespace CSVHandler {
 
     std::set<Genre> deserializeGenres(std::string& genresString);
 
-    void exportFile(const std::string &path, const Library &library);
+    void exportFile(const std::string &path, const BookRepository &library);
 }
 #endif //LIBRARY_CSVHANDLER_H
