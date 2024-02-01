@@ -7,11 +7,13 @@
 
 #include <headers/ProgramSettings.h>
 #include <headers/BookRepository.h>
+#include <headers/TSVHandler.h>
+#include <headers/CLIHandler.h>
 
 class Application {
 private:
     ProgramSettings settings;
-    BookRepository library;
+    BookRepository bookRepository;
 public:
     Application(int &argc, char **argv);
     void run();

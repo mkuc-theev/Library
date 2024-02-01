@@ -13,7 +13,7 @@ class BookRepository {
 private:
     std::vector<BookEntry> bookEntries;
 
-    std::vector<BookEntry> mergeSort();
+    std::vector<BookEntry> mergeSort(const std::vector<BookEntry>& entryVector, bool (*comparator)(const BookEntry&, const BookEntry&));
     std::vector<BookEntry> insertionSort();
 public:
     explicit BookRepository (std::vector<BookEntry> bookEntries);
@@ -21,7 +21,6 @@ public:
     std::string toString();
     void addBookEntry(BookEntry newEntry);
     void removeBookEntry(BookEntry &book, unsigned int numOfCopies);
-    void editBookEntry(const BookEntry& book);
 
     const std::vector<BookEntry> &getBookEntries() const;
 };

@@ -3,8 +3,8 @@
 //
 
 
-#include "headers/CSVHandler.h"
-namespace CSVHandler {
+#include "headers/TSVHandler.h"
+namespace TSVHandler {
     std::string serializeBookEntry(const BookEntry &entry) {
         std::stringstream ss;
         ss << entry.getTitle() << '\t'
@@ -17,23 +17,26 @@ namespace CSVHandler {
         return ss.str();
     }
 
-    BookEntry deserializeBookEntry(std::string& csvEntry) {
+    BookEntry deserializeBookEntry(std::string& entryString) {
         std::vector<std::string> tokens;
         size_t pos;
-        while ((pos = csvEntry.find('\t')) != std::string::npos) {
-            tokens.push_back(csvEntry.substr(0, pos));
-            csvEntry.erase(0, pos + 1);
+        while ((pos = entryString.find('\t')) != std::string::npos) {
+            tokens.push_back(entryString.substr(0, pos));
+            entryString.erase(0, pos + 1);
         }
-        tokens.push_back(csvEntry);
-
-        return BookEntry(
-                tokens.at(0),
-                tokens.at(1),
-                std::stoi(tokens.at(2), nullptr, 10),
-                std::stoi(tokens.at(3), nullptr, 10),
-                std::stoi(tokens.at(4), nullptr, 10),
-                deserializeGenres(tokens.at(5))
-        );
+        tokens.push_back(entryString);
+        try {
+            return BookEntry(
+                    tokens.at(0),
+                    tokens.at(1),
+                    std::stoi(tokens.at(2), nullptr, 10),
+                    std::stoi(tokens.at(3), nullptr, 10),
+                    std::stoi(tokens.at(4), nullptr, 10),
+                    deserializeGenres(tokens.at(5))
+            );
+        } catch (std::exception &e) {
+            throw std::runtime_error("File import error!");
+        }
     }
 
     std::vector<BookEntry> importFile(const std::string &path) {

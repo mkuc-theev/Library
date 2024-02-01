@@ -8,8 +8,45 @@ BookRepository::BookRepository(std::vector<BookEntry> bookEntries) : bookEntries
 
 BookRepository::BookRepository() = default;
 
-std::vector<BookEntry> BookRepository::mergeSort() {
-    return std::vector<BookEntry>();
+std::vector<BookEntry> BookRepository::mergeSort(
+        const std::vector<BookEntry>& entryVector,
+        bool (*comparator)(const BookEntry&, const BookEntry&)) {
+    if (entryVector.size() <= 1) {
+        return entryVector;
+    }
+
+    std::size_t const halfSize = entryVector.size() / 2;
+    std::vector<BookEntry> sortedVectorA = mergeSort(
+            { entryVector.begin(), entryVector.end() + halfSize },
+            comparator
+            );
+    std::vector<BookEntry> sortedVectorB = mergeSort(
+            { entryVector.begin() + halfSize, entryVector.end() },
+            comparator
+            );
+
+    std::vector<BookEntry> result;
+    auto itA = sortedVectorA.begin();
+    auto itB = sortedVectorB.begin();
+
+    while (result.size() < sortedVectorA.size() + sortedVectorB.size()) {
+        if (comparator(*itA, *itB)) {
+            result.insert(result.end(), *itA);
+            if (itA == sortedVectorA.end()) {
+                result.insert(result.end(), itB, sortedVectorB.end());
+                continue;
+            }
+            itA++;
+        } else {
+            result.insert(result.end(), *itB);
+            if (itB == sortedVectorB.end()) {
+                result.insert(result.end(), itA, sortedVectorA.end());
+                continue;
+            }
+            itB++;
+        }
+    }
+    return result;
 }
 
 std::vector<BookEntry> BookRepository::insertionSort() {
@@ -53,9 +90,6 @@ void BookRepository::removeBookEntry(BookEntry &book, unsigned int numOfCopies) 
     }
 }
 
-void BookRepository::editBookEntry(const BookEntry &book) {
-
-}
 
 const std::vector<BookEntry> &BookRepository::getBookEntries() const {
     return bookEntries;

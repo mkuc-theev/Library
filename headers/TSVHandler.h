@@ -2,8 +2,8 @@
 // Created by steam on 1/26/2024.
 //
 
-#ifndef LIBRARY_CSVHANDLER_H
-#define LIBRARY_CSVHANDLER_H
+#ifndef LIBRARY_TSVHANDLER_H
+#define LIBRARY_TSVHANDLER_H
 
 #include <string>
 #include <vector>
@@ -11,10 +11,10 @@
 #include "BookRepository.h"
 #include "Genre.h"
 
-namespace CSVHandler {
+namespace TSVHandler {
     std::string serializeBookEntry(const BookEntry &bookEntry);
 
-    BookEntry deserializeBookEntry(std::string& csvEntry);
+    BookEntry deserializeBookEntry(std::string& entryString);
 
     std::vector<BookEntry> importFile(const std::string &path);
 
@@ -24,4 +24,4 @@ namespace CSVHandler {
 
     void exportFile(const std::string &path, const BookRepository &library);
 }
-#endif //LIBRARY_CSVHANDLER_H
+#endif //LIBRARY_TSVHANDLER_H

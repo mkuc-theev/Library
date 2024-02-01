@@ -11,13 +11,13 @@ add_executable(Library
         headers/Genre.h
         src/main.cpp
         src/Genre.cpp
-        src/CSVHandler.cpp
-        headers/CSVHandler.h
+        src/TSVHandler.cpp
+        headers/TSVHandler.h
         src/BookRepository.cpp
         headers/BookRepository.h
-        headers/MenuHandler.h
+        headers/CLIHandler.h
         src/ProgramSettings.cpp
         headers/ProgramSettings.h
-        src/MenuHandler.cpp
+        src/CLIHandler.cpp
         src/Application.cpp
         headers/Application.h)
