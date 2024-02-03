@@ -20,4 +20,6 @@ add_executable(Library
         headers/ProgramSettings.h
         src/CLIHandler.cpp
         src/Application.cpp
-        headers/Application.h)
+        headers/Application.h
+        src/RepositorySorter.cpp
+        headers/RepositorySorter.h)

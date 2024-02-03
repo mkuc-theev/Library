@@ -2,64 +2,19 @@
 // Created by steam on 1/26/2024.
 //
 
+
 #include "headers/BookRepository.h"
 
 BookRepository::BookRepository(std::vector<BookEntry> bookEntries) : bookEntries{std::move(bookEntries)} {}
 
 BookRepository::BookRepository() = default;
 
-std::vector<BookEntry> BookRepository::mergeSort(
-        const std::vector<BookEntry>& entryVector,
-        bool (*comparator)(const BookEntry&, const BookEntry&)) {
-    if (entryVector.size() <= 1) {
-        return entryVector;
-    }
-
-    std::size_t const halfSize = entryVector.size() / 2;
-    std::vector<BookEntry> sortedVectorA = mergeSort(
-            { entryVector.begin(), entryVector.end() + halfSize },
-            comparator
-            );
-    std::vector<BookEntry> sortedVectorB = mergeSort(
-            { entryVector.begin() + halfSize, entryVector.end() },
-            comparator
-            );
-
-    std::vector<BookEntry> result;
-    auto itA = sortedVectorA.begin();
-    auto itB = sortedVectorB.begin();
-
-    while (result.size() < sortedVectorA.size() + sortedVectorB.size()) {
-        if (comparator(*itA, *itB)) {
-            result.insert(result.end(), *itA);
-            if (itA == sortedVectorA.end()) {
-                result.insert(result.end(), itB, sortedVectorB.end());
-                continue;
-            }
-            itA++;
-        } else {
-            result.insert(result.end(), *itB);
-            if (itB == sortedVectorB.end()) {
-                result.insert(result.end(), itA, sortedVectorA.end());
-                continue;
-            }
-            itB++;
-        }
-    }
-    return result;
-}
-
-std::vector<BookEntry> BookRepository::insertionSort() {
-    return std::vector<BookEntry>();
-}
-
-
 
 std::string BookRepository::toString() {
     std::stringstream ss;
     ss << "Book repository with " << bookEntries.size() << " entries:\n";
     for (BookEntry& entry : bookEntries) {
-        ss << entry.toString(false);
+        ss << entry.toString(true);
     }
     return ss.str();
 }
@@ -93,4 +48,17 @@ void BookRepository::removeBookEntry(BookEntry &book, unsigned int numOfCopies) 
 
 const std::vector<BookEntry> &BookRepository::getBookEntries() const {
     return bookEntries;
+}
+
+void BookRepository::mergeSort(bool (*comparator)(const BookEntry &, const BookEntry &)) {
+    try {
+        auto start = std::chrono::steady_clock::now();
+        bookEntries = RepositorySorter::mergeSort(bookEntries.begin(), bookEntries.end() - 1, comparator);
+        auto end = std::chrono::steady_clock::now();
+        std::cout << "Mergesort done in "
+                  << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count()
+                  << " nanoseconds.\n";
+    } catch(std::exception& e) {
+        std::cout << "Sorting failed: " << e.what() << std::endl;
+    }
 }

@@ -44,6 +44,8 @@ public:
     const std::set<Genre> &getGenres() const;
 
     bool equals(const BookEntry& book);
+
+    static bool compareReleaseYear(const BookEntry &bookA, const BookEntry& bookB);
 };
 
 

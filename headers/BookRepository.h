@@ -6,22 +6,21 @@
 #define LIBRARY_BOOKREPOSITORY_H
 
 #include "BookEntry.h"
+#include "headers/RepositorySorter.h"
+#include <chrono>
 #include <vector>
 #include <functional>
 
 class BookRepository {
 private:
     std::vector<BookEntry> bookEntries;
-
-    std::vector<BookEntry> mergeSort(const std::vector<BookEntry>& entryVector, bool (*comparator)(const BookEntry&, const BookEntry&));
-    std::vector<BookEntry> insertionSort();
 public:
     explicit BookRepository (std::vector<BookEntry> bookEntries);
     BookRepository();
     std::string toString();
     void addBookEntry(BookEntry newEntry);
     void removeBookEntry(BookEntry &book, unsigned int numOfCopies);
-
+    void mergeSort(bool (*comparator)(const BookEntry&, const BookEntry&));
     const std::vector<BookEntry> &getBookEntries() const;
 };
 

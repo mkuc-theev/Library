@@ -47,7 +47,7 @@ namespace CLIHandler {
         SetConsoleCursorPosition( hStdOut, homeCoords );
     }
 
-    void mainMenu(const BookRepository& repository) {
+    void mainMenu(BookRepository& repository) {
         clearScreen();
         std::cin.exceptions(std::ios_base::failbit);
         int userInput;
@@ -62,10 +62,10 @@ namespace CLIHandler {
                       << ">> ";
 
             try {
-                cinClear();
                 std::cin >> userInput;
             } catch(std::exception &e) {
                 std::cout << "\n\n======= Bad user input! =======\n\n";
+                cinClear();
                 userInput = 0;
                 continue;
             }
@@ -96,9 +96,11 @@ namespace CLIHandler {
         } while (userInput != 99);
     }
 
-    void entryListMenu(const BookRepository& repository) {
+    void entryListMenu(BookRepository& repository) {
         clearScreen();
-
+        repository.mergeSort(BookEntry::compareReleaseYear);
+        std::cout << "======= Viewing all entries =======\n\n"
+                  << repository.toString();
     }
     void entryViewMenu() {
 

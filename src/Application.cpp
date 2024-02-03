@@ -26,7 +26,7 @@ void Application::run() {
     }
 
     try {
-        CLIHandler::mainMenu();
+        CLIHandler::mainMenu(bookRepository);
     } catch (std::exception &e) {
         throw e;
     }

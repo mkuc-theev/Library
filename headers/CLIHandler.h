@@ -12,8 +12,8 @@
 #include <headers/BookRepository.h>
 
 namespace CLIHandler {
-    void mainMenu(const BookRepository& repository);
-    void entryListMenu(const BookRepository& repository);
+    void mainMenu(BookRepository& repository);
+    void entryListMenu(BookRepository& repository);
     void entryViewMenu();
     void entryAddMenu();
     void entryEditMenu();

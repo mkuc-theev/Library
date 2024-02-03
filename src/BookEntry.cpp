@@ -19,7 +19,7 @@ BookEntry::BookEntry(std::string title, std::string author, unsigned int numOfPa
 std::string BookEntry::toString(bool singleLine) {
     std::stringstream ss;
     if (singleLine) {
-        ss << title << " by " << author << " (" << releaseYear << ")";
+        ss << "\"" << title << "\" by " << author << " (" << releaseYear << ")\n";
     } else {
         ss << "{ " << std::endl
            << "    Title: \"" << title << "\"," << std::endl
@@ -32,7 +32,7 @@ std::string BookEntry::toString(bool singleLine) {
         for (itr = genres.begin(); itr != genres.end(); ++itr) {
             ss << GenreToString(*itr) << (itr == --genres.end() ? " " : ", ");
         }
-        ss << "]\n}";
+        ss << "]\n}\n";
     }
     return ss.str();
 }
@@ -93,4 +93,8 @@ void BookEntry::setNumOfCopies(unsigned int numOfCopies) {
 
 void BookEntry::setGenres(const std::set<Genre> &genres) {
     BookEntry::genres = genres;
+}
+
+bool BookEntry::compareReleaseYear(const BookEntry &bookA, const BookEntry& bookB) {
+    return bookA.releaseYear <= bookB.releaseYear;
 }

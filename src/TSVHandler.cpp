@@ -79,15 +79,19 @@ namespace TSVHandler {
     std::set<Genre> deserializeGenres(std::string& genresString) {
         std::set<Genre> result;
         size_t pos;
-        while ((pos = genresString.find('|')) != std::string::npos) {
-            result.insert(
-                    GenreFromString(
-                            genresString.substr(0, pos)
-                            )
-                    );
-            genresString.erase(0, pos + 1);
+        try {
+            while ((pos = genresString.find('|')) != std::string::npos) {
+                result.insert(
+                        GenreFromString(
+                                genresString.substr(0, pos)
+                        )
+                );
+                genresString.erase(0, pos + 1);
+            }
+            result.insert(GenreFromString(genresString));
+        } catch (std::exception& e) {
+            throw e;
         }
-        result.insert(GenreFromString(genresString));
         return result;
     }
 }
