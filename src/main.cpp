@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
         Application app = Application(argc, argv);
         app.run();
     } catch (std::exception& e) {
-        std::cout << e.what() << std::endl;
+        std::cout << "\nProgram terminated: " << e.what() << std::endl;
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

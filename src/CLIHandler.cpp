@@ -5,9 +5,17 @@
 #include "headers/CLIHandler.h"
 
 namespace CLIHandler {
+
+
+
     void cinClear() {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    void enterToContinue() {
+        std::cout << "\nPress ENTER to continue...";
+        char temp;
+        std::cin.get(temp);
     }
 
     void clearScreen()
@@ -48,11 +56,11 @@ namespace CLIHandler {
     }
 
     void mainMenu(BookRepository& repository) {
-        clearScreen();
         std::cin.exceptions(std::ios_base::failbit);
         int userInput;
         do {
-            std::cout << "\n======= Main Menu =======\n"
+            clearScreen();
+            std::cout << "======= Main Menu =======\n"
                       << "1. List all entries\n"
                       << "2. View and manage an entry\n"
                       << "3. Add new entry\n"
@@ -64,9 +72,10 @@ namespace CLIHandler {
             try {
                 std::cin >> userInput;
             } catch(std::exception &e) {
-                std::cout << "\n\n======= Bad user input! =======\n\n";
+                clearScreen();
+                std::cout << "======= Bad user input! =======\n\n";
                 cinClear();
-                userInput = 0;
+                enterToContinue();
                 continue;
             }
 
@@ -89,8 +98,10 @@ namespace CLIHandler {
                 case 99:
                     continue;
                 default:
-                    std::cout << "\n\n======= Please choose one of the listed numbers. =======\n\n";
-                    userInput = 0;
+                    clearScreen();
+                    std::cout << "======= Please choose one of the listed numbers. =======\n\n";
+                    cinClear();
+                    enterToContinue();
             }
 
         } while (userInput != 99);
@@ -98,9 +109,10 @@ namespace CLIHandler {
 
     void entryListMenu(BookRepository& repository) {
         clearScreen();
-        repository.mergeSort(BookEntry::compareReleaseYear);
-        std::cout << "======= Viewing all entries =======\n\n"
-                  << repository.toString();
+        sortMenu(repository);
+        std::cout << repository.toString();
+        cinClear();
+        enterToContinue();
     }
     void entryViewMenu() {
 
@@ -130,9 +142,88 @@ namespace CLIHandler {
 
     }
 
-    void sortMenu() {
+    void sortMenu(BookRepository& repository) {
+        clearScreen();
+        int userInput;
+        do {
+            std::cout << "Would you like to sort the repository?\n\n"
+                      << "1. Merge sort\n"
+                      << "2. Insertion sort\n"
+                      << "3. Don't sort\n\n"
+                      << "99. Exit\n\n"
+                      << ">> ";
+            try {
+                std::cin >> userInput;
+            } catch(std::exception &e) {
+                clearScreen();
+                std::cout << "======= Bad user input! =======\n\n";
+                cinClear();
+                enterToContinue();
+                continue;
+            }
 
+            switch(userInput) {
+                case 1:
+                    repository.mergeSort(comparatorSelectMenu());
+                    return;
+                case 2:
+                    repository.insertionSort(comparatorSelectMenu());
+                    return;
+                case 3:
+                    clearScreen();
+                    return;
+                case 99:
+                    mainMenu(repository);
+                default:
+                    clearScreen();
+                    std::cout << "======= Please choose one of the listed numbers. =======\n\n";
+                    cinClear();
+                    enterToContinue();
+            }
+        } while (userInput != 99);
     }
+
+    comparatorFunc comparatorSelectMenu() {
+        clearScreen();
+        int userInput;
+        while(true) {
+            std::cout << "Which field would you like to sort by?\n\n"
+                      << "1. Title\n"
+                      << "2. Author\n"
+                      << "3. Number of pages\n"
+                      << "4. Release year\n"
+                      << "5. Number of copies\n\n"
+                      << ">> ";
+            try {
+                std::cin >> userInput;
+            } catch(std::exception &e) {
+                clearScreen();
+                std::cout << "======= Bad user input! =======\n\n";
+                cinClear();
+                enterToContinue();
+                continue;
+            }
+            clearScreen();
+            switch(userInput) {
+                case 1:
+                    return BookEntry::compareTitle;
+                case 2:
+                    return BookEntry::compareAuthor;
+                case 3:
+                    return BookEntry::compareNumOfPages;
+                case 4:
+                    return BookEntry::compareReleaseYear;
+                case 5:
+                    return BookEntry::compareNumOfCopies;
+                default:
+                    clearScreen();
+                    std::cout << "======= Please choose one of the listed numbers. =======\n\n";
+                    cinClear();
+                    enterToContinue();
+            }
+        }
+    }
+
     void helpScreen() {
         std::cout << "help";
     }

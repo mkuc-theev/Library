@@ -51,8 +51,26 @@ namespace  RepositorySorter {
         return result;
     }
 
-    std::vector<BookEntry> insertionSort() {
-        return std::vector<BookEntry>();
+    std::vector<BookEntry> insertionSort(std::vector<BookEntry>& inputVec,
+            bool (*comparator)(const BookEntry&, const BookEntry&)) {
+        if(inputVec.size() <= 1) {
+            return inputVec;
+        }
+        std::vector<BookEntry> resultVec;
+        resultVec.reserve(inputVec.size());
+        resultVec.push_back(inputVec[0]);
+        for (auto inputIt = inputVec.begin() + 1; inputIt != inputVec.end(); ++inputIt) {
+            auto resultIt = resultVec.end() - 1;
+            if (comparator(*resultIt, *inputIt) || !comparator(*inputIt, *resultIt)) {
+                resultVec.push_back(*inputIt);
+            } else {
+                while (resultIt >= resultVec.begin() && !comparator(*resultIt, *inputIt)) {
+                    --resultIt;
+                }
+                resultVec.insert(resultIt + 1, *inputIt);
+            }
+        }
+        return resultVec;
     }
 
 }

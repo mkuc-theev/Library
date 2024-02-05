@@ -14,7 +14,8 @@ namespace RepositorySorter {
     std::vector<BookEntry> mergeSort(const std::vector<BookEntry>::iterator start,
                                      const std::vector<BookEntry>::iterator end,
                                      bool (*comparator)(const BookEntry&, const BookEntry&));
-    std::vector<BookEntry> insertionSort();
+    std::vector<BookEntry> insertionSort(std::vector<BookEntry>& inputVec,
+                                         bool (*comparator)(const BookEntry&, const BookEntry&));
 };
 
 

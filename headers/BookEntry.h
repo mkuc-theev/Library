@@ -45,7 +45,17 @@ public:
 
     bool equals(const BookEntry& book);
 
-    static bool compareReleaseYear(const BookEntry &bookA, const BookEntry& bookB);
+    static bool compareTitle(const BookEntry &entryA, const BookEntry &entryB);
+
+    static bool compareAuthor(const BookEntry &entryA, const BookEntry &entryB);
+
+    static bool compareNumOfPages(const BookEntry &entryA, const BookEntry &entryB);
+    
+    static bool compareReleaseYear(const BookEntry &entryA, const BookEntry &entryB);
+    
+    static bool compareNumOfCopies(const BookEntry &entryA, const BookEntry &entryB);
+
+    std::string toRegexTarget();
 };
 
 

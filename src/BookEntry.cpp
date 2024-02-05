@@ -72,29 +72,53 @@ bool BookEntry::equals(const BookEntry &book) {
 }
 
 void BookEntry::setTitle(const std::string &title) {
-    BookEntry::title = title;
+    this->title = title;
 }
 
 void BookEntry::setAuthor(const std::string &author) {
-    BookEntry::author = author;
+    this->author = author;
 }
 
 void BookEntry::setNumOfPages(unsigned int numOfPages) {
-    BookEntry::numOfPages = numOfPages;
+    this->numOfPages = numOfPages;
 }
 
 void BookEntry::setReleaseYear(unsigned int releaseYear) {
-    BookEntry::releaseYear = releaseYear;
+    this->releaseYear = releaseYear;
 }
 
 void BookEntry::setNumOfCopies(unsigned int numOfCopies) {
-    BookEntry::numOfCopies = numOfCopies;
+    this->numOfCopies = numOfCopies;
 }
 
 void BookEntry::setGenres(const std::set<Genre> &genres) {
-    BookEntry::genres = genres;
+    this->genres = genres;
 }
 
-bool BookEntry::compareReleaseYear(const BookEntry &bookA, const BookEntry& bookB) {
-    return bookA.releaseYear <= bookB.releaseYear;
+
+bool BookEntry::compareTitle(const BookEntry &entryA, const BookEntry &entryB) {
+    return entryA.title <= entryB.title;
+}
+
+bool BookEntry::compareAuthor(const BookEntry &entryA, const BookEntry &entryB) {
+    return entryA.author <= entryB.author;
+}
+
+bool BookEntry::compareNumOfPages(const BookEntry &entryA, const BookEntry &entryB) {
+    return entryA.numOfPages <= entryB.numOfPages;
+}
+
+bool BookEntry::compareReleaseYear(const BookEntry &entryA, const BookEntry& entryB) {
+    return entryA.releaseYear <= entryB.releaseYear;
+}
+
+
+bool BookEntry::compareNumOfCopies(const BookEntry &entryA, const BookEntry &entryB) {
+    return entryA.numOfCopies <= entryB.numOfCopies;
+}
+
+std::string BookEntry::toRegexTarget() {
+    std::stringstream result;
+    result << title << author << releaseYear;
+    return result.str();
 }
