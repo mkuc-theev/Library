@@ -5,9 +5,6 @@
 #ifndef LIBRARY_CLIHANDLER_H
 #define LIBRARY_CLIHANDLER_H
 
-
-#include <windows.h>
-#include <conio.h>
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -32,7 +29,6 @@ public:
     void sortMenu();
     void helpScreen();
     void exitScreen();
-    void clearScreen();
     void cinClear();
     void enterToContinue();
 };

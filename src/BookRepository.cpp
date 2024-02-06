@@ -13,9 +13,9 @@ BookRepository::BookRepository() = default;
 
 std::string BookRepository::toString() {
     std::stringstream ss;
-    ss << "Book repository with " << bookEntries.size() << " entries:\n";
-    for (BookEntry& entry : bookEntries) {
-        ss << entry.toString(true);
+    ss << "======= Book repository with " << bookEntries.size() << " entries =======\n\n";
+    for (int i = 0; i < bookEntries.size(); ++i) {
+        ss << i + 1 << ". " << bookEntries[i].toString() << "\n\n";
     }
     return ss.str();
 }

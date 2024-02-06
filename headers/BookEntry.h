@@ -29,7 +29,8 @@ public:
     void setGenres(const std::set<Genre> &genres);
 
     BookEntry(std::string title, std::string author, unsigned int numOfPages, unsigned int releaseYear, unsigned int numOfCopies, std::set<Genre> genres);
-    std::string toString(bool singleLine);
+
+    std::string toString();
 
     const std::string &getTitle() const;
 

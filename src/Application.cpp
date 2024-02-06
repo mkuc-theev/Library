@@ -10,7 +10,6 @@ Application::Application(int &argc, char **argv)
           cliHandler(CLIHandler(bookRepository)) {}
 
 void Application::run() {
-    cliHandler.clearScreen();
 
     if(settings.isHelpMode()) {
         cliHandler.helpScreen();

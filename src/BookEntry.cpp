@@ -16,24 +16,15 @@ BookEntry::BookEntry(std::string title, std::string author, unsigned int numOfPa
     this -> genres = std::move(genres);
 }
 
-std::string BookEntry::toString(bool singleLine) {
+std::string BookEntry::toString() {
     std::stringstream ss;
-    if (singleLine) {
-        ss << "\"" << title << "\" by " << author << " (" << releaseYear << ")\n";
-    } else {
-        ss << "{ " << std::endl
-           << "    Title: \"" << title << "\"," << std::endl
-           << "    Author: " << author << ',' << std::endl
-           << "    Number of pages: " << numOfPages << ',' << std::endl
-           << "    Release year: " << releaseYear << ',' << std::endl
-           << "    Number of copies: " << numOfCopies << ',' << std::endl
-           << "    Genres: [ ";
-        std::set<Genre>::iterator itr;
-        for (itr = genres.begin(); itr != genres.end(); ++itr) {
-            ss << GenreToString(*itr) << (itr == --genres.end() ? " " : ", ");
-        }
-        ss << "]\n}\n";
+    ss << "\"" << title << "\" by " << author <<" (" << releaseYear << "):\n  "
+       << numOfPages << " pages. Genres: ";
+    for (auto itr = genres.begin(); itr != genres.end(); ++itr) {
+        ss << GenreToString(*itr) << (itr == --genres.end() ? " " : ", ");
     }
+    ss << "\n   " << numOfCopies << " copies in stock.";
+
     return ss.str();
 }
 
