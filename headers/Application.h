@@ -14,6 +14,7 @@ class Application {
 private:
     ProgramSettings settings;
     BookRepository bookRepository;
+    CLIHandler cliHandler;
 public:
     Application(int &argc, char **argv);
     void run();

@@ -6,7 +6,6 @@
 #define LIBRARY_BOOKREPOSITORY_H
 
 #include "BookEntry.h"
-#include "headers/RepositorySorter.h"
 #include <chrono>
 #include <vector>
 #include <regex>
@@ -15,6 +14,14 @@
 class BookRepository {
 private:
     std::vector<BookEntry> bookEntries;
+
+    std::vector<BookEntry> mergeSort(
+            std::vector<BookEntry>::iterator start,
+            std::vector<BookEntry>::iterator end,
+            bool (*comparator)(const BookEntry&, const BookEntry&));
+    std::vector<BookEntry> insertionSort(
+            std::vector<BookEntry>& inputVec,
+            bool (*comparator)(const BookEntry&, const BookEntry&));
 public:
     explicit BookRepository (std::vector<BookEntry> bookEntries);
     BookRepository();
@@ -25,6 +32,7 @@ public:
     void mergeSort(bool (*comparator)(const BookEntry&, const BookEntry&));
     void insertionSort(bool (*comparator)(const BookEntry &, const BookEntry &));
     const std::vector<BookEntry> &getBookEntries() const;
+
 };
 
 

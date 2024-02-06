@@ -4,29 +4,21 @@
 
 #include "headers/Application.h"
 
-Application::Application(int &argc, char **argv) {
-    settings = ProgramSettings(argc, argv);
-    if(settings.isImportMode()) {
-        try {
-            bookRepository = BookRepository(TSVHandler::importFile(settings.getImportPath()));
-        } catch (std::exception &e) {
-            throw e;
-        }
-    } else {
-        bookRepository = BookRepository();
-    }
-}
+Application::Application(int &argc, char **argv)
+        : settings(argc, argv),
+          bookRepository(settings.isImportMode() ? BookRepository(TSVHandler::importFile(settings.getImportPath())) : BookRepository()),
+          cliHandler(CLIHandler(bookRepository)) {}
 
 void Application::run() {
-    CLIHandler::clearScreen();
+    cliHandler.clearScreen();
 
     if(settings.isHelpMode()) {
-        CLIHandler::helpScreen();
+        cliHandler.helpScreen();
         return;
     }
 
     try {
-        CLIHandler::mainMenu(bookRepository);
+        cliHandler.mainMenu();
     } catch (std::exception &e) {
         throw e;
     }

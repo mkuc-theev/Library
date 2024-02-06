@@ -21,5 +21,5 @@ add_executable(Library
         src/CLIHandler.cpp
         src/Application.cpp
         headers/Application.h
-        src/RepositorySorter.cpp
-        headers/RepositorySorter.h)
+        src/CLIHandler.cpp
+        headers/CLIHandler.h)
