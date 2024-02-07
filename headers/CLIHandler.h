@@ -18,19 +18,23 @@ public:
     explicit CLIHandler(BookRepository& bookRepository);
     comparatorFunc comparatorSelectMenu();
     void mainMenu();
-    void entryListMenu();
-    void entryViewMenu();
+    void entryListMenu(std::vector<BookEntry>& entries);
+    void entryViewMenu(BookEntry& entry);
     void entryAddMenu();
+    std::vector<BookEntry>  searchByYear(std::vector<BookEntry>& entries);
+    std::vector<BookEntry>  searchByGenre(std::vector<BookEntry>& entries);
+    std::vector<BookEntry>  searchByTitle(std::vector<BookEntry>& entries);
+    std::vector<BookEntry>  searchByAuthor(std::vector<BookEntry>& entries);
     void entryEditMenu();
     void entryRemoveMenu();
-    void genreListBuilder();
+    std::set<Genre> genreSetBuilder(std::set<Genre>& genres);
     void importMenu();
     void exportMenu();
     void sortMenu();
     void helpScreen();
-    void exitScreen();
     void cinClear();
     void enterToContinue();
+    void printEntryList(std::vector<BookEntry>& entries);
 };
 
 

@@ -25,13 +25,11 @@ private:
 public:
     explicit BookRepository (std::vector<BookEntry> bookEntries);
     BookRepository();
-    std::string toString();
     void addBookEntry(BookEntry newEntry);
     void removeBooksInEntry(BookEntry &book, unsigned int numOfCopies);
-    std::vector<BookEntry *> searchInBookEntries(const std::string& query);
     void mergeSort(bool (*comparator)(const BookEntry&, const BookEntry&));
     void insertionSort(bool (*comparator)(const BookEntry &, const BookEntry &));
-    const std::vector<BookEntry> &getBookEntries() const;
+    std::vector<BookEntry> &getBookEntries();
 
 };
 

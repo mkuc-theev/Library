@@ -108,8 +108,3 @@ bool BookEntry::compareNumOfCopies(const BookEntry &entryA, const BookEntry &ent
     return entryA.numOfCopies <= entryB.numOfCopies;
 }
 
-std::string BookEntry::toRegexTarget() {
-    std::stringstream result;
-    result << title << author << releaseYear;
-    return result.str();
-}

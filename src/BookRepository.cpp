@@ -10,16 +10,6 @@ BookRepository::BookRepository(std::vector<BookEntry> bookEntries) : bookEntries
 
 BookRepository::BookRepository() = default;
 
-
-std::string BookRepository::toString() {
-    std::stringstream ss;
-    ss << "======= Book repository with " << bookEntries.size() << " entries =======\n\n";
-    for (int i = 0; i < bookEntries.size(); ++i) {
-        ss << i + 1 << ". " << bookEntries[i].toString() << "\n\n";
-    }
-    return ss.str();
-}
-
 void BookRepository::addBookEntry(BookEntry newEntry) {
     for(BookEntry& entry : bookEntries) {
        if(newEntry.equals(entry)) {
@@ -47,7 +37,7 @@ void BookRepository::removeBooksInEntry(BookEntry &book, unsigned int numOfCopie
 }
 
 
-const std::vector<BookEntry> &BookRepository::getBookEntries() const {
+std::vector<BookEntry> &BookRepository::getBookEntries() {
     return bookEntries;
 }
 
@@ -75,17 +65,6 @@ void BookRepository::insertionSort(bool (*comparator)(const BookEntry &, const B
     } catch (std::exception& e) {
         std::cout << "Sorting failed: " << e.what() << std::endl;
     }
-}
-
-std::vector<BookEntry *> BookRepository::searchInBookEntries(const std::string &query) {
-    std::vector<BookEntry *> searchResults;
-    std::regex regex(query, std::regex::icase);
-    for (auto& entry : bookEntries) {
-        if(std::regex_match(entry.toRegexTarget(), regex)) {
-            searchResults.push_back(&entry);
-        }
-    }
-    return searchResults;
 }
 
 std::vector<BookEntry> BookRepository::mergeSort(

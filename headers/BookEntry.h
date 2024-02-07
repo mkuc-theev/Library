@@ -32,6 +32,7 @@ public:
 
     std::string toString();
 
+
     const std::string &getTitle() const;
 
     const std::string &getAuthor() const;
@@ -56,7 +57,7 @@ public:
     
     static bool compareNumOfCopies(const BookEntry &entryA, const BookEntry &entryB);
 
-    std::string toRegexTarget();
+
 };
 
 
