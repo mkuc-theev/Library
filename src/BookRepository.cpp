@@ -4,6 +4,8 @@
 
 
 
+#include <utility>
+
 #include "headers/BookRepository.h"
 
 BookRepository::BookRepository(std::vector<BookEntry> bookEntries) : bookEntries{std::move(bookEntries)} {}
@@ -132,5 +134,9 @@ std::vector<BookEntry> BookRepository::insertionSort(std::vector<BookEntry>& inp
         }
     }
     return resultVec;
+}
+
+void BookRepository::setBookEntries(std::vector<BookEntry> newEntries) {
+    bookEntries = std::move(newEntries);
 }
 

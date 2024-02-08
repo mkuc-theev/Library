@@ -30,6 +30,8 @@ public:
 
     BookEntry(std::string title, std::string author, unsigned int numOfPages, unsigned int releaseYear, unsigned int numOfCopies, std::set<Genre> genres);
 
+    BookEntry();
+
     std::string toString();
 
 
@@ -43,9 +45,9 @@ public:
 
     const unsigned int & getNumOfCopies() const;
 
-    const std::set<Genre> &getGenres() const;
+    std::set<Genre> &getGenres();
 
-    bool equals(const BookEntry& book);
+    bool equals(BookEntry& book);
 
     static bool compareTitle(const BookEntry &entryA, const BookEntry &entryB);
 

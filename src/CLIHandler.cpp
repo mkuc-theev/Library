@@ -76,7 +76,7 @@ void CLIHandler::mainMenu() {
 }
 
 void CLIHandler::entryListMenu(std::vector<BookEntry>& entries) {
-    std::vector<BookEntry> currentList = entries;
+    std::vector<BookEntry>& currentList = entries;
     std::string userInput;
     do {
         printEntryList(currentList);
@@ -98,7 +98,6 @@ void CLIHandler::entryListMenu(std::vector<BookEntry>& entries) {
             continue;
         }
         if (userInput == "exit") {
-            cinClear();
             continue;
         }
         std::regex integer_regex("^\\d+$");
@@ -106,7 +105,7 @@ void CLIHandler::entryListMenu(std::vector<BookEntry>& entries) {
             int index;
             try {
                 index = std::stoi(userInput, nullptr, 10) - 1;
-                if (index == 0 || index >= entries.size()) {
+                if (index < 0 || index >= entries.size()) {
                     throw std::out_of_range("");
                 }
             } catch (std::exception &e) {
@@ -171,10 +170,11 @@ std::vector<BookEntry> CLIHandler::searchByGenre(std::vector<BookEntry>& entries
 }
 
 std::vector<BookEntry> CLIHandler::searchByTitle(std::vector<BookEntry>&entries) {
+    cinClear();
     std::vector<BookEntry> result;
     std::string query;
     std::cout << "\n\nPlease enter the search query.\n>> ";
-    std::cin >> query;
+    std::getline(std::cin, query);
     std::regex regex(query, std::regex::icase);
     for (auto& entry : entries) {
         if(std::regex_search(entry.getTitle(), regex)) {
@@ -185,10 +185,11 @@ std::vector<BookEntry> CLIHandler::searchByTitle(std::vector<BookEntry>&entries)
 }
 
 std::vector<BookEntry> CLIHandler::searchByAuthor(std::vector<BookEntry>&entries) {
+    cinClear();
     std::vector<BookEntry> result;
     std::string query;
     std::cout << "\n\nPlease enter the search query.\n>> ";
-    std::cin >> query;
+    std::getline(std::cin, query);
     std::regex regex(query, std::regex::icase);
     for (auto& entry : entries) {
         if(std::regex_search(entry.getAuthor(), regex)) {
@@ -199,19 +200,258 @@ std::vector<BookEntry> CLIHandler::searchByAuthor(std::vector<BookEntry>&entries
 }
 
 void CLIHandler::entryViewMenu(BookEntry& entry) {
+    int userInput;
+    do {
+        std::cout << "\nSelected entry:\n\n"
+                  << entry.toString();
+        std::cout << "\n==============\n\n"
+                  << "1. Edit entry\n"
+                  << "2. Remove entry\n\n"
+                  << "99. Exit\n\n"
+                  << ">>";
+        try {
+            std::cin >> userInput;
+        } catch(std::exception &e) {
+            std::cout << "\n\n======= Bad user input! =======\n\n";
+            cinClear();
+            enterToContinue();
+            continue;
+        }
 
+        switch(userInput) {
+            case 1:
+                entryEditMenu(entry);
+                break;
+            case 2:
+                if (entryRemoveMenu(entry)) {
+                    return;
+                }
+                break;
+            case 99:
+                cinClear();
+                break;
+            default:
+                std::cout << "\n\n======= Please choose one of the listed numbers. =======\n\n";
+                cinClear();
+                enterToContinue();
+        }
+        cinClear();
+    } while (userInput != 99);
 }
 
 void CLIHandler::entryAddMenu() {
+    int intInput;
+    std::string stringInput;
+    do {
+        cinClear();
+        BookEntry entry;
+        std::cout << "\n\n======= Adding new entry =======\n\n"
+                  << "Please enter the title of the book: ";
+        std::getline(std::cin, stringInput);
+        entry.setTitle(stringInput);
+        std::cout << "\nPlease enter the name of the author: ";
+        std::getline(std::cin, stringInput);
+        entry.setAuthor(stringInput);
+        while(true) {
+            std::cout << "\nPlease enter the number of pages: ";
+            try {
+                std::cin >> intInput;
+                if (intInput < 0) {
+                    throw std::out_of_range("\n\nInput can't be below 0!\n\n");
+                }
+                entry.setNumOfPages(intInput);
+            } catch (std::exception &e) {
+                std::cout << "\n\n======= Bad user input! =======\n\n";
+                cinClear();
+                enterToContinue();
+                continue;
+            }
+            cinClear();
+            break;
+        }
+        while(true) {
+            std::cout << "\nPlease enter the release year: ";
+            try {
+                std::cin >> intInput;
+                if (intInput < 0) {
+                    throw std::out_of_range("\n\nInput can't be below 0!\n\n");
+                }
+                entry.setReleaseYear(intInput);
+            } catch (std::exception &e) {
+                std::cout << "\n\n======= Bad user input! =======\n\n";
+                cinClear();
+                enterToContinue();
+                continue;
+            }
+            cinClear();
+            break;
+        }
+        std::cout << "\nBuilding genre list...\n";
+        entry.setGenres(genreSetBuilder(entry.getGenres()));
+        while(true) {
+            std::cout << "\nPlease enter the number of copies to add: ";
+            try {
+                std::cin >> intInput;
+                if (intInput < 0) {
+                    throw std::out_of_range("\n\nInput can't be below 0!\n\n");
+                }
+                entry.setNumOfCopies(intInput);
+            } catch (std::exception &e) {
+                std::cout << "\n\n======= Bad user input! =======\n\n";
+                cinClear();
+                enterToContinue();
+                continue;
+            }
+            cinClear();
+            break;
+        }
+        while (true) {
+            std::cout << "\n\nCompleted entry creation. Is this correct?\n\n"
+                      << entry.toString()
+                      << "\n1. Yes\n"
+                      << "2. No, start over\n\n"
+                      << "3. Cancel\n\n"
+                      << ">> ";
+            try {
+                std::cin >> intInput;
+            } catch (std::exception &e) {
+                std::cout << "\n\n======= Bad user input! =======\n\n";
+                cinClear();
+                enterToContinue();
+                continue;
+            }
+            cinClear();
+            break;
+        }
+        switch(intInput) {
+            case 1:
+                bookRepository.addBookEntry(entry);
+                std::cout << "\nEntry added!\n";
+                break;
+            case 2:
+                std::cout << "\nResetting...\n";
+                break;
+            case 99:
+                break;
+            default:
+                std::cout << "\n\n======= Please choose one of the listed numbers. =======\n\n";
+                cinClear();
+                enterToContinue();
+        }
+        cinClear();
+    } while (intInput != 99 && intInput != 1);
+}
+
+void CLIHandler::entryEditMenu(BookEntry& entry) {
+    int userInput;
+    std::string stringInput;
+    do {
+        std::cout << "\nSelected entry: \n"
+                  << entry.toString()
+                  << "\nWhich property would you like to change?\n\n"
+                  << "1. Title\n"
+                  << "2. Author\n"
+                  << "3. Release year\n"
+                  << "4. Number of pages\n"
+                  << "5. Genres\n\n"
+                  << "99. Exit\n\n"
+                  << ">> ";
+        try {
+            std::cin >> userInput;
+        } catch(std::exception &e) {
+            std::cout << "\n\n======= Bad user input! =======\n\n";
+            cinClear();
+            enterToContinue();
+            continue;
+        }
+        cinClear();
+        switch(userInput) {
+            case 1:
+                std::cout << "\n\nWhat should the new title be?\n\n>> ";
+                std::getline(std::cin, stringInput);
+                entry.setTitle(stringInput);
+                std::cout << "\n\nChanged title to \"" << stringInput << "\".\n";
+                break;
+            case 2:
+                std::cout << "\n\nWhat should the new author be?\n\n>> ";
+                std::getline(std::cin, stringInput);
+                entry.setAuthor(stringInput);
+                std::cout << "\n\nChanged author to \"" << stringInput << "\".\n";
+                break;
+            case 3:
+                while (true) {
+                    std::cout << "\n\nWhat should the new release year be?\n\n>> ";
+                    try {
+                        std::cin >> userInput;
+                    } catch (std::exception &e) {
+                        std::cout << "\n\n======= Bad user input! =======\n\n";
+                        cinClear();
+                        enterToContinue();
+                        continue;
+                    }
+                    break;
+                }
+                entry.setReleaseYear(userInput);
+                std::cout << "\n\nChanged release year to " << userInput << ".\n";
+                break;
+            case 4:
+                while (true) {
+                    std::cout << "\n\nWhat should the new page count be?\n\n>> ";
+                    try {
+                        std::cin >> userInput;
+                    } catch (std::exception &e) {
+                        std::cout << "\n\n======= Bad user input! =======\n\n";
+                        cinClear();
+                        enterToContinue();
+                        continue;
+                    }
+                    break;
+                }
+                entry.setNumOfPages(userInput);
+                std::cout << "\n\nChanged number of pages to " << userInput << ".\n";
+                break;
+            case 5:
+                entry.setGenres(genreSetBuilder(entry.getGenres()));
+                break;
+            case 99:
+                continue;
+            default:
+                std::cout << "\n\n======= Please choose one of the listed numbers. =======\n\n";
+                cinClear();
+                enterToContinue();
+        }
+        cinClear();
+    } while (userInput != 99);
 
 }
 
-void CLIHandler::entryEditMenu() {
-
-}
-
-void CLIHandler::entryRemoveMenu() {
-
+bool CLIHandler::entryRemoveMenu(BookEntry& entry) {
+    int userInput;
+    while (true) {
+        std::cout << "\nHow many copies would you like to remove? Removing all copies will remove the entry. Enter 0 to cancel.\n\n>>";
+        try {
+            std::cin >> userInput;
+            if (userInput < 0) {
+                throw std::out_of_range("\n\nInput can't be below 0!\n\n");
+            }
+            if (userInput == 0) {
+                cinClear();
+                break;
+            }
+            if (userInput == entry.getNumOfCopies()) {
+                bookRepository.removeBooksInEntry(entry, userInput);
+                return true;
+            }
+            bookRepository.removeBooksInEntry(entry, userInput);
+            return false;
+        } catch(std::exception &e) {
+            std::cout << "\n\n======= Bad user input! =======\n\n";
+            cinClear();
+            enterToContinue();
+            continue;
+        }
+    }
+    return false;
 }
 
 std::set<Genre> CLIHandler::genreSetBuilder(std::set<Genre>& genres) {
@@ -271,11 +511,31 @@ std::set<Genre> CLIHandler::genreSetBuilder(std::set<Genre>& genres) {
 }
 
 void CLIHandler::importMenu() {
-
+    std::string userInput;
+    std::cout << "\n\nPlease enter the path to the file you wish to import.\n\n>> ";
+    cinClear();
+    std::getline(std::cin, userInput);
+    try {
+        bookRepository.setBookEntries(TSVHandler::importFile(userInput));
+        std::cout << "\nFile imported successfully!\n";
+    } catch (std::exception& e) {
+        std::cout << "\n\n======= File import failed! =======\n\n";
+        throw e;
+    }
 }
 
 void CLIHandler::exportMenu() {
-
+    std::string userInput;
+    std::cout << "\n\nPlease enter the export path.\n\n>> ";
+    cinClear();
+    std::getline(std::cin, userInput);
+    try {
+        TSVHandler::exportFile(userInput, bookRepository);
+        std::cout << "\nFile exported successfully!\n";
+    } catch (std::exception& e) {
+        std::cout << "\n\n======= File export failed! =======\n\n";
+        throw e;
+    }
 }
 
 void CLIHandler::sortMenu() {
@@ -359,7 +619,13 @@ CLIHandler::comparatorFunc CLIHandler::comparatorSelectMenu() {
 }
 
 void CLIHandler::helpScreen() {
-    std::cout << "help";
+    std::cout << "\n======= Library usage =======\n\n"
+              << ".\\library.exe [parameters]\n"
+              << "Available parameters:\n"
+              << "-i [path] - Import book repository from filepath.\n"
+              << "-e [path] - Export book repository to file path before exiting program.\n"
+              << "-h - Show this help message.\n\n";
+    enterToContinue();
 }
 
 

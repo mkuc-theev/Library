@@ -16,6 +16,8 @@ BookEntry::BookEntry(std::string title, std::string author, unsigned int numOfPa
     this -> genres = std::move(genres);
 }
 
+BookEntry::BookEntry(): numOfPages{0}, releaseYear{0}, numOfCopies{0}{}
+
 std::string BookEntry::toString() {
     std::stringstream ss;
     ss << "\"" << title << "\" by " << author <<" (" << releaseYear << "):\n  "
@@ -48,11 +50,11 @@ const unsigned int & BookEntry::getNumOfCopies() const {
     return numOfCopies;
 }
 
-const std::set<Genre> &BookEntry::getGenres() const {
+std::set<Genre> &BookEntry::getGenres(){
     return genres;
 }
 
-bool BookEntry::equals(const BookEntry &book) {
+bool BookEntry::equals(BookEntry &book) {
     return (
             title == book.getTitle() &&
             author == book.getAuthor() &&

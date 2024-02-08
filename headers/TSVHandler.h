@@ -12,16 +12,16 @@
 #include "Genre.h"
 
 namespace TSVHandler {
-    std::string serializeBookEntry(const BookEntry &bookEntry);
+    std::string serializeBookEntry(BookEntry &bookEntry);
 
     BookEntry deserializeBookEntry(std::string& entryString);
 
     std::vector<BookEntry> importFile(const std::string &path);
 
-    std::string serializeGenres(const BookEntry &entry);
+    std::string serializeGenres(BookEntry &entry);
 
     std::set<Genre> deserializeGenres(std::string& genresString);
 
-    void exportFile(const std::string &path, const BookRepository &library);
+    void exportFile(const std::string &path, BookRepository &library);
 }
 #endif //LIBRARY_TSVHANDLER_H

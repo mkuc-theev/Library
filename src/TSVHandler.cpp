@@ -5,7 +5,7 @@
 
 #include "headers/TSVHandler.h"
 namespace TSVHandler {
-    std::string serializeBookEntry(const BookEntry &entry) {
+    std::string serializeBookEntry(BookEntry &entry) {
         std::stringstream ss;
         ss << entry.getTitle() << '\t'
            << entry.getAuthor() << '\t'
@@ -57,7 +57,7 @@ namespace TSVHandler {
     void exportFile(const std::string &path, BookRepository &library) {
         std::ofstream outputFile(path);
         if(outputFile.is_open()) {
-            for (const BookEntry &entry : library.getBookEntries()) {
+            for (BookEntry &entry : library.getBookEntries()) {
                 outputFile << serializeBookEntry(entry);
             }
             outputFile.close();
@@ -66,7 +66,7 @@ namespace TSVHandler {
         }
     }
 
-    std::string serializeGenres(const BookEntry &entry) {
+    std::string serializeGenres(BookEntry &entry) {
         const std::set<Genre>& genres = entry.getGenres();
         std::stringstream ss;
         std::set<Genre>::iterator itr;
