@@ -86,6 +86,7 @@ void CLIHandler::entryListMenu(std::vector<BookEntry>& entries) {
                   << "  - To search by author, enter \"author\".\n"
                   << "  - To search by release year, enter \"year\".\n"
                   << "  - To search by genre, enter \"genre\".\n\n"
+                  << "To reset the search, enter \"reset\"\n"
                   << "To select an entry for viewing and editing, enter its index.\n"
                   << "To go back, enter \"exit\".\n\n"
                   << ">> ";
@@ -123,6 +124,8 @@ void CLIHandler::entryListMenu(std::vector<BookEntry>& entries) {
             currentList = searchByYear(currentList);
         } else if (userInput == "genre") {
             currentList = searchByGenre(currentList);
+        } else if (userInput == "reset") {
+            currentList = bookRepository.getBookEntries();
         } else {
             std::cout << "\n\n======= Please choose one of the listed options. =======\n\n";
             cinClear();
@@ -245,13 +248,21 @@ void CLIHandler::entryAddMenu() {
     do {
         cinClear();
         BookEntry entry;
-        std::cout << "\n\n======= Adding new entry =======\n\n"
-                  << "Please enter the title of the book: ";
-        std::getline(std::cin, stringInput);
-        entry.setTitle(stringInput);
-        std::cout << "\nPlease enter the name of the author: ";
-        std::getline(std::cin, stringInput);
-        entry.setAuthor(stringInput);
+        std::cout << "\n\n======= Adding new entry =======\n\n";
+        do {
+            std::cout << "Please enter the title of the book: ";
+            std::getline(std::cin, stringInput);
+            if(!stringInput.empty()) {
+                entry.setTitle(stringInput);
+            }
+        } while (stringInput.empty());
+        do {
+            std::cout << "\nPlease enter the name of the author: ";
+            std::getline(std::cin, stringInput);
+            if(!stringInput.empty()) {
+                entry.setTitle(stringInput);
+            }
+        } while (stringInput.empty());
         while(true) {
             std::cout << "\nPlease enter the number of pages: ";
             try {
@@ -620,7 +631,7 @@ CLIHandler::comparatorFunc CLIHandler::comparatorSelectMenu() {
 
 void CLIHandler::helpScreen() {
     std::cout << "\n======= Library usage =======\n\n"
-              << ".\\library.exe [parameters]\n"
+              << ".\\Library.exe [parameters]\n"
               << "Available parameters:\n"
               << "-i [path] - Import book repository from filepath.\n"
               << "-e [path] - Export book repository to file path before exiting program.\n"

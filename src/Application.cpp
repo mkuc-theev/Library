@@ -15,9 +15,11 @@ void Application::run() {
         cliHandler.helpScreen();
         return;
     }
-
     try {
         cliHandler.mainMenu();
+        if (settings.isExportMode()) {
+            TSVHandler::exportFile(settings.getExportPath(), bookRepository);
+        }
     } catch (std::exception &e) {
         throw e;
     }
