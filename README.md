@@ -1,6 +1,6 @@
-###Usage
-.\Library.exe [parameters]
-Available parameters:
--i [path] - Import book repository from filepath.
--e [path] - Export book repository to file path before exiting program.
+## Usage
+.\Library.exe [parameters]<br>
+Available parameters:<br>
+-i [path] - Import book repository from filepath.<br>
+-e [path] - Export book repository to file path before exiting program.<br>
 -h - Show help message.
