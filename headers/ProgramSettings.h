@@ -15,15 +15,15 @@ private:
     bool exportMode = false, importMode = false, helpMode = false;
     std::string importPath, exportPath;
 public:
-    ProgramSettings(const int& argc, char **argv);
+    ProgramSettings(const int &argc, char **argv);
 
-    const bool isExportMode() const;
+    bool isExportMode() const;
 
     ProgramSettings();
 
-    const bool isImportMode() const;
+    bool isImportMode() const;
 
-    const bool isHelpMode() const;
+    bool isHelpMode() const;
 
     const std::string &getImportPath() const;
 

@@ -6,13 +6,14 @@
 
 Application::Application(int &argc, char **argv)
         : settings(argc, argv),
-          bookRepository(settings.isImportMode() ? BookRepository(TSVHandler::importFile(settings.getImportPath())) : BookRepository()),
+          bookRepository(settings.isImportMode() ? BookRepository(TSVHandler::importFile(settings.getImportPath()))
+                                                 : BookRepository()),
           cliHandler(CLIHandler(bookRepository)) {}
 
 void Application::run() {
 
-    if(settings.isHelpMode()) {
-        cliHandler.helpScreen();
+    if (settings.isHelpMode()) {
+        CLIHandler::helpScreen();
         return;
     }
     try {

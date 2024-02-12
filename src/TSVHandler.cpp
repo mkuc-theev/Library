@@ -4,6 +4,7 @@
 
 
 #include "headers/TSVHandler.h"
+
 namespace TSVHandler {
     std::string serializeBookEntry(BookEntry &entry) {
         std::stringstream ss;
@@ -17,23 +18,27 @@ namespace TSVHandler {
         return ss.str();
     }
 
-    BookEntry deserializeBookEntry(std::string& entryString) {
+    BookEntry deserializeBookEntry(std::string &entryString) {
         std::vector<std::string> tokens;
         size_t pos;
         while ((pos = entryString.find('\t')) != std::string::npos) {
+            std::string token = entryString.substr(0, pos);
+            if (token.empty()) {
+                throw std::ios_base::failure("Null value found in input file!");
+            }
             tokens.push_back(entryString.substr(0, pos));
             entryString.erase(0, pos + 1);
         }
         tokens.push_back(entryString);
         try {
-            return BookEntry(
+            return {
                     tokens.at(0),
                     tokens.at(1),
-                    std::stoi(tokens.at(2), nullptr, 10),
-                    std::stoi(tokens.at(3), nullptr, 10),
-                    std::stoi(tokens.at(4), nullptr, 10),
+                    static_cast<unsigned int>(std::stoi(tokens.at(2), nullptr, 10)),
+                    static_cast<unsigned int>(std::stoi(tokens.at(3), nullptr, 10)),
+                    static_cast<unsigned int>(std::stoi(tokens.at(4), nullptr, 10)),
                     deserializeGenres(tokens.at(5))
-            );
+            };
         } catch (std::exception &e) {
             throw std::runtime_error("File import error!");
         }
@@ -43,8 +48,8 @@ namespace TSVHandler {
         std::vector<BookEntry> result;
         std::ifstream inputFile(path);
         std::string line;
-        if(inputFile.is_open()) {
-            while(std::getline(inputFile, line)) {
+        if (inputFile.is_open()) {
+            while (std::getline(inputFile, line)) {
                 result.push_back(deserializeBookEntry(line));
             }
             inputFile.close();
@@ -56,8 +61,8 @@ namespace TSVHandler {
 
     void exportFile(const std::string &path, BookRepository &library) {
         std::ofstream outputFile(path);
-        if(outputFile.is_open()) {
-            for (BookEntry &entry : library.getBookEntries()) {
+        if (outputFile.is_open()) {
+            for (BookEntry &entry: library.getBookEntries()) {
                 outputFile << serializeBookEntry(entry);
             }
             outputFile.close();
@@ -67,7 +72,7 @@ namespace TSVHandler {
     }
 
     std::string serializeGenres(BookEntry &entry) {
-        const std::set<Genre>& genres = entry.getGenres();
+        const std::set<Genre> &genres = entry.getGenres();
         std::stringstream ss;
         std::set<Genre>::iterator itr;
         for (itr = genres.begin(); itr != genres.end(); ++itr) {
@@ -76,7 +81,7 @@ namespace TSVHandler {
         return ss.str();
     }
 
-    std::set<Genre> deserializeGenres(std::string& genresString) {
+    std::set<Genre> deserializeGenres(std::string &genresString) {
         std::set<Genre> result;
         size_t pos;
         try {
@@ -89,7 +94,7 @@ namespace TSVHandler {
                 genresString.erase(0, pos + 1);
             }
             result.insert(GenreFromString(genresString));
-        } catch (std::exception& e) {
+        } catch (std::exception &e) {
             throw e;
         }
         return result;

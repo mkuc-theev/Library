@@ -6,21 +6,20 @@
 #include <utility>
 #include <sstream>
 
-BookEntry::BookEntry(std::string title, std::string author, unsigned int numOfPages, unsigned int releaseYear, unsigned int numOfCopies,
-                     std::set<Genre> genres) {
-    this -> title = std::move(title);
-    this -> author = std::move(author);
-    this -> numOfPages = numOfPages;
-    this -> releaseYear = releaseYear;
-    this -> numOfCopies = numOfCopies;
-    this -> genres = std::move(genres);
-}
+BookEntry::BookEntry(std::string bookTitle, std::string bookAuthor, unsigned int bookNumOfPages,
+                     unsigned int bookReleaseYear, unsigned int bookNumOfCopies, std::set<Genre> bookGenres):
+                     title{std::move(bookTitle)},
+                     author{std::move(bookAuthor)},
+                     numOfPages{bookNumOfPages},
+                     releaseYear{bookReleaseYear},
+                     numOfCopies{bookNumOfCopies},
+                     genres{std::move(bookGenres)} {}
 
-BookEntry::BookEntry(): numOfPages{0}, releaseYear{0}, numOfCopies{0}{}
+BookEntry::BookEntry() : numOfPages{0}, releaseYear{0}, numOfCopies{0} {}
 
 std::string BookEntry::toString() {
     std::stringstream ss;
-    ss << "\"" << title << "\" by " << author <<" (" << releaseYear << "):\n  "
+    ss << "\"" << title << "\" by " << author << " (" << releaseYear << "):\n  "
        << numOfPages << " pages. Genres: ";
     for (auto itr = genres.begin(); itr != genres.end(); ++itr) {
         ss << GenreToString(*itr) << (itr == --genres.end() ? " " : ", ");
@@ -46,11 +45,11 @@ unsigned int BookEntry::getReleaseYear() const {
     return releaseYear;
 }
 
-const unsigned int & BookEntry::getNumOfCopies() const {
+const unsigned int &BookEntry::getNumOfCopies() const {
     return numOfCopies;
 }
 
-std::set<Genre> &BookEntry::getGenres(){
+std::set<Genre> &BookEntry::getGenres() {
     return genres;
 }
 
@@ -61,31 +60,31 @@ bool BookEntry::equals(BookEntry &book) {
             numOfPages == book.getNumOfPages() &&
             releaseYear == book.getReleaseYear() &&
             genres == book.getGenres()
-            );
+    );
 }
 
-void BookEntry::setTitle(const std::string &title) {
-    this->title = title;
+void BookEntry::setTitle(const std::string &newTitle) {
+    this->title = newTitle;
 }
 
-void BookEntry::setAuthor(const std::string &author) {
-    this->author = author;
+void BookEntry::setAuthor(const std::string &newAuthor) {
+    this->author = newAuthor;
 }
 
-void BookEntry::setNumOfPages(unsigned int numOfPages) {
-    this->numOfPages = numOfPages;
+void BookEntry::setNumOfPages(unsigned int newNumOfPages) {
+    this->numOfPages = newNumOfPages;
 }
 
-void BookEntry::setReleaseYear(unsigned int releaseYear) {
-    this->releaseYear = releaseYear;
+void BookEntry::setReleaseYear(unsigned int newReleaseYear) {
+    this->releaseYear = newReleaseYear;
 }
 
-void BookEntry::setNumOfCopies(unsigned int numOfCopies) {
-    this->numOfCopies = numOfCopies;
+void BookEntry::setNumOfCopies(unsigned int newNumOfCopies) {
+    this->numOfCopies = newNumOfCopies;
 }
 
-void BookEntry::setGenres(const std::set<Genre> &genres) {
-    this->genres = genres;
+void BookEntry::setGenres(const std::set<Genre> &newGenres) {
+    this->genres = newGenres;
 }
 
 
@@ -101,7 +100,7 @@ bool BookEntry::compareNumOfPages(const BookEntry &entryA, const BookEntry &entr
     return entryA.numOfPages <= entryB.numOfPages;
 }
 
-bool BookEntry::compareReleaseYear(const BookEntry &entryA, const BookEntry& entryB) {
+bool BookEntry::compareReleaseYear(const BookEntry &entryA, const BookEntry &entryB) {
     return entryA.releaseYear <= entryB.releaseYear;
 }
 

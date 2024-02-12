@@ -14,23 +14,27 @@
 class BookRepository {
 private:
     std::vector<BookEntry> bookEntries;
+public:
+    explicit BookRepository(std::vector<BookEntry> bookEntries);
 
-    std::vector<BookEntry> mergeSort(
+    BookRepository();
+
+    void addBookEntry(BookEntry newEntry);
+
+    bool changeNumOfCopies(BookEntry &book, int numOfCopies);
+
+    std::vector<BookEntry> &getBookEntries();
+
+    void setBookEntries(std::vector<BookEntry> newEntries);
+
+    static std::vector<BookEntry> mergeSort(
             std::vector<BookEntry>::iterator start,
             std::vector<BookEntry>::iterator end,
-            bool (*comparator)(const BookEntry&, const BookEntry&));
+            bool (*comparator)(const BookEntry &, const BookEntry &));
+
     static std::vector<BookEntry> insertionSort(
-            std::vector<BookEntry>& inputVec,
-            bool (*comparator)(const BookEntry&, const BookEntry&));
-public:
-    explicit BookRepository (std::vector<BookEntry> bookEntries);
-    BookRepository();
-    void addBookEntry(BookEntry newEntry);
-    void removeBooksInEntry(BookEntry &book, unsigned int numOfCopies);
-    void mergeSort(bool (*comparator)(const BookEntry&, const BookEntry&));
-    void insertionSort(bool (*comparator)(const BookEntry &, const BookEntry &));
-    std::vector<BookEntry> &getBookEntries();
-    void setBookEntries(std::vector<BookEntry> newEntries);
+            std::vector<BookEntry> &inputVec,
+            bool (*comparator)(const BookEntry &, const BookEntry &));
 
 };
 

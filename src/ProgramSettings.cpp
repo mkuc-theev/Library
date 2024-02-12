@@ -5,15 +5,15 @@
 
 #include "headers/ProgramSettings.h"
 
-const bool ProgramSettings::isExportMode() const {
+bool ProgramSettings::isExportMode() const {
     return exportMode;
 }
 
-const bool ProgramSettings::isImportMode() const {
+bool ProgramSettings::isImportMode() const {
     return importMode;
 }
 
-const bool ProgramSettings::isHelpMode() const {
+bool ProgramSettings::isHelpMode() const {
     return helpMode;
 }
 

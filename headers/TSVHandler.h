@@ -14,13 +14,13 @@
 namespace TSVHandler {
     std::string serializeBookEntry(BookEntry &bookEntry);
 
-    BookEntry deserializeBookEntry(std::string& entryString);
+    BookEntry deserializeBookEntry(std::string &entryString);
 
     std::vector<BookEntry> importFile(const std::string &path);
 
     std::string serializeGenres(BookEntry &entry);
 
-    std::set<Genre> deserializeGenres(std::string& genresString);
+    std::set<Genre> deserializeGenres(std::string &genresString);
 
     void exportFile(const std::string &path, BookRepository &library);
 }

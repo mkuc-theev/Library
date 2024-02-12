@@ -16,17 +16,17 @@ private:
     unsigned int numOfPages, releaseYear, numOfCopies;
     std::set<Genre> genres;
 public:
-    void setTitle(const std::string &title);
+    void setTitle(const std::string &newTitle);
 
-    void setAuthor(const std::string &author);
+    void setAuthor(const std::string &newAuthor);
 
-    void setNumOfPages(unsigned int numOfPages);
+    void setNumOfPages(unsigned int newNumOfPages);
 
-    void setReleaseYear(unsigned int releaseYear);
+    void setReleaseYear(unsigned int newReleaseYear);
 
-    void setNumOfCopies(unsigned int numOfCopies);
+    void setNumOfCopies(unsigned int newNumOfCopies);
 
-    void setGenres(const std::set<Genre> &genres);
+    void setGenres(const std::set<Genre> &newGenres);
 
     BookEntry(std::string title, std::string author, unsigned int numOfPages, unsigned int releaseYear, unsigned int numOfCopies, std::set<Genre> genres);
 
