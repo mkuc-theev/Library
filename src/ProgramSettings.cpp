@@ -48,5 +48,3 @@ ProgramSettings::ProgramSettings(const int &argc, char **argv) {
         }
     }
 }
-
-ProgramSettings::ProgramSettings() = default;

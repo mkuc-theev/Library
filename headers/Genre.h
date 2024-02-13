@@ -8,12 +8,16 @@
 #include <iostream>
 #include <string>
 #include <map>
-
+/**
+ * Enumeration of genre tags allowed by the program.
+ */
 enum class Genre {
     HORROR, FANTASY, ROMANCE, SCI_FI, NON_FICTION, BIOGRAPHY, HISTORY,
     SELF_HELP, THRILLER, CRIME, COMIC, POETRY, PLAY, COOKING,
 };
-
+/**
+ * Maps string representations of genre tags to their enumeration counterparts.
+ */
 const std::map<std::string, Genre> genreStringMap{
         {"Horror",          Genre::HORROR},
         {"Fantasy",         Genre::FANTASY},
@@ -31,8 +35,18 @@ const std::map<std::string, Genre> genreStringMap{
         {"Cookbook",        Genre::COOKING},
 };
 
+/**
+ * Converts a Genre enum value to its string representation.
+ * @param genre The enum value to convert.
+ * @return String representing the genre tag.
+ */
 std::string GenreToString(Genre genre);
 
+/**
+ * Converts a genre tag string representation to its enum value.
+ * @param genreString The string to convert.
+ * @return Enum value representing the genre tag.
+ */
 Genre GenreFromString(const std::string &genreString);
 
 #endif //LIBRARY_GENRE_H

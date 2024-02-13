@@ -93,6 +93,11 @@ void CLIHandler::mainMenu() {
 }
 
 void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
+    if (entries.empty()) {
+        std::cout << "\nThe book repository is empty. Add books manually or import a repository from a file to view this menu.\n\n";
+        enterToContinue();
+        return;
+    }
     std::vector<BookEntry> &currentList = entries;
     std::string userInput;
     do {
@@ -143,7 +148,7 @@ void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
         } else if (userInput == "genre") {
             currentList = searchByGenre(currentList);
         } else if (userInput == "reset") {
-            currentList = bookRepository.getBookEntries();
+            currentList = entries;
         } else if (userInput == "sort") {
             currentList = sortMenu(currentList);
         } else {
@@ -157,7 +162,6 @@ void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
 
 std::vector<BookEntry> CLIHandler::searchByYear(std::vector<BookEntry> &entries) {
     int userInput;
-    std::vector<BookEntry> result;
     while (true) {
         std::cout << "\nEnter the year you want to search for.\n\n>> ";
         try {
@@ -170,30 +174,17 @@ std::vector<BookEntry> CLIHandler::searchByYear(std::vector<BookEntry> &entries)
         }
         break;
     }
-    for (auto &entry: entries) {
-        if (entry.getReleaseYear() == userInput) {
-            result.push_back(entry);
-        }
-    }
-    return result;
+    return BookRepository::searchByYear(entries, userInput);
 }
 
 std::vector<BookEntry> CLIHandler::searchByGenre(std::vector<BookEntry> &entries) {
     std::cout << "\nPlease choose which genres to look for.\n";
-    std::vector<BookEntry> result;
     std::set<Genre> chosenGenres = genreSetBuilder(chosenGenres);
-    for (auto &entry: entries) {
-        if (std::includes(entry.getGenres().begin(), entry.getGenres().end(),
-                          chosenGenres.begin(), chosenGenres.end())) {
-            result.push_back(entry);
-        }
-    }
-    return result;
+    return BookRepository::searchByGenre(entries, chosenGenres);
 }
 
 std::vector<BookEntry> CLIHandler::searchByTitle(std::vector<BookEntry> &entries) {
     cinClear();
-    std::vector<BookEntry> result;
     std::string query;
     do {
         std::cout << "\nPlease enter the search query.\n>> ";
@@ -203,18 +194,12 @@ std::vector<BookEntry> CLIHandler::searchByTitle(std::vector<BookEntry> &entries
         }
     } while (query.empty());
     query = trimString(query);
-    std::regex regex(query, std::regex::icase);
-    for (auto &entry: entries) {
-        if (std::regex_search(entry.getTitle(), regex)) {
-            result.push_back(entry);
-        }
-    }
-    return result;
+    return BookRepository::searchByTitle(entries, query);
 }
 
 std::vector<BookEntry> CLIHandler::searchByAuthor(std::vector<BookEntry> &entries) {
     cinClear();
-    std::vector<BookEntry> result;
+
     std::string query;
     do {
         std::cout << "\nPlease enter the search query.\n>> ";
@@ -224,13 +209,7 @@ std::vector<BookEntry> CLIHandler::searchByAuthor(std::vector<BookEntry> &entrie
         }
     } while (query.empty());
     query = trimString(query);
-    std::regex regex(query, std::regex::icase);
-    for (auto &entry: entries) {
-        if (std::regex_search(entry.getAuthor(), regex)) {
-            result.push_back(entry);
-        }
-    }
-    return result;
+    return BookRepository::searchByAuthor(entries, query);
 }
 
 void CLIHandler::entryViewMenu(BookEntry &entry) {

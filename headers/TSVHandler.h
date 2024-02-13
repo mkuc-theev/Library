@@ -10,18 +10,50 @@
 #include <fstream>
 #include "BookRepository.h"
 #include "Genre.h"
-
+/**
+ * Provides functions for file I/O. The file format is TSV.
+ */
 namespace TSVHandler {
-    std::string serializeBookEntry(BookEntry &bookEntry);
+/**
+ * Converts a BookEntry object to a string representation in the TSV format.
+ * @param bookEntry The book entry to serialize.
+ * @return The TSV string representation of provided entry.
+ */
+std::string serializeBookEntry(BookEntry &bookEntry);
 
-    BookEntry deserializeBookEntry(std::string &entryString);
+/**
+ * Converts a TSV string to a BookEntry object.
+ * @param entryString The TSV string to deserialize.
+ * @return The BookEntry object described by the string.
+ */
+BookEntry deserializeBookEntry(std::string &entryString);
 
-    std::vector<BookEntry> importFile(const std::string &path);
+/**
+ * Imports book entries from a TSV file.
+ * @param path Path to the file being imported.
+ * @return Vector of book entries stored in the file.
+ */
+std::vector<BookEntry> importFile(const std::string &path);
 
-    std::string serializeGenres(BookEntry &entry);
+/**
+ * Converts a set of genre tags into a TSV string representation.
+ * @param entry The entry for which to serialize genres.
+ * @return String containing a TSV representation of the genre set.
+ */
+std::string serializeGenres(BookEntry &entry);
 
-    std::set<Genre> deserializeGenres(std::string &genresString);
+/**
+ * Converts a TSV string representation of genres to a set of genres.
+ * @param genresString String representation of a genre set.
+ * @return Set of genre tags deserialized from the string.
+ */
+std::set<Genre> deserializeGenres(std::string &genresString);
 
-    void exportFile(const std::string &path, BookRepository &library);
+/**
+ * Exports the program's data repository to a TSV file.
+ * @param path Path to the file being exported.
+ * @param bookRepository Reference to the program's main data repository.
+ */
+void exportFile(const std::string &path, BookRepository &bookRepository);
 }
 #endif //LIBRARY_TSVHANDLER_H

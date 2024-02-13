@@ -21,10 +21,15 @@ namespace TSVHandler {
     BookEntry deserializeBookEntry(std::string &entryString) {
         std::vector<std::string> tokens;
         size_t pos;
+        //Tokenize each line by finding delimiter, then erasing the start of the string until the delimiter
         while ((pos = entryString.find('\t')) != std::string::npos) {
             std::string token = entryString.substr(0, pos);
             if (token.empty()) {
                 throw std::ios_base::failure("Null value found in input file!");
+            }
+            std::regex negativeNumberRegex("^-\\d+$");
+            if (std::regex_match(token, negativeNumberRegex)) {
+                throw std::ios_base::failure("Negative numerical value found in input file!");
             }
             tokens.push_back(entryString.substr(0, pos));
             entryString.erase(0, pos + 1);
@@ -40,7 +45,7 @@ namespace TSVHandler {
                     deserializeGenres(tokens.at(5))
             };
         } catch (std::exception &e) {
-            throw std::runtime_error("File import error!");
+            throw std::runtime_error("File import error! Couldn't build BookEntry object.");
         }
     }
 
@@ -59,10 +64,10 @@ namespace TSVHandler {
         }
     }
 
-    void exportFile(const std::string &path, BookRepository &library) {
+    void exportFile(const std::string &path, BookRepository &bookRepository) {
         std::ofstream outputFile(path);
         if (outputFile.is_open()) {
-            for (BookEntry &entry: library.getBookEntries()) {
+            for (BookEntry &entry: bookRepository.getBookEntries()) {
                 outputFile << serializeBookEntry(entry);
             }
             outputFile.close();
