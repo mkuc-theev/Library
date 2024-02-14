@@ -1,7 +1,3 @@
-//
-// Created by steam on 2/6/2024.
-//
-
 #ifndef LIBRARY_CLIHANDLER_H
 #define LIBRARY_CLIHANDLER_H
 
@@ -10,6 +6,7 @@
 #include <vector>
 #include "TSVHandler.h"
 #include "BookRepository.h"
+
 /**
  * Provides functions for UI flow and related operations that require console I/O.
  */
@@ -43,7 +40,7 @@ void mainMenu();
  * Displays a menu for searching through, sorting and editing a list of book entries.
  * @param entries The vector of book entries to display and manage.
  */
-void entryListMenu(std::vector<BookEntry> &entries);
+void entryListMenu();
 
 /**
  * Displays information about a book entry and provides option for editing it.
@@ -163,6 +160,5 @@ static void enterToContinue();
  */
 static void printEntryList(std::vector<BookEntry> &entries);
 };
-
 
 #endif //LIBRARY_CLIHANDLER_H

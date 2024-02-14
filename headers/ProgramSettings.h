@@ -1,14 +1,10 @@
-//
-// Created by steam on 1/28/2024.
-//
-
 #ifndef LIBRARY_PROGRAMSETTINGS_H
 #define LIBRARY_PROGRAMSETTINGS_H
-
 
 #include <string>
 #include <cstring>
 #include <stdexcept>
+
 /**
  * Stores program settings and arguments passed to the program from the console.
  */

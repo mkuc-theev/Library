@@ -1,9 +1,3 @@
-//
-// Created by steam on 1/26/2024.
-//
-
-
-
 #include <utility>
 
 #include "headers/BookRepository.h"
@@ -12,9 +6,10 @@ BookRepository::BookRepository(std::vector<BookEntry> bookEntries) : bookEntries
 
 BookRepository::BookRepository() = default;
 
-void BookRepository::addBookEntry(BookEntry newEntry) {
+void BookRepository::addBookEntry(const BookEntry& newEntry) {
     for (BookEntry &entry: bookEntries) {
-        if (newEntry.equals(entry)) {
+        if (newEntry == entry) {
+            //Increment number of copies if entry already exists
             entry.setNumOfCopies(entry.getNumOfCopies() + newEntry.getNumOfCopies());
             return;
         }
@@ -25,7 +20,7 @@ void BookRepository::addBookEntry(BookEntry newEntry) {
 bool BookRepository::changeNumOfCopies(BookEntry &book, int numOfCopies) {
     for (auto it = bookEntries.begin(); it != bookEntries.end(); ++it) {
         auto &entry = *it;
-        if (book.equals(entry)) {
+        if (book == entry) {
             if (numOfCopies < 0 && -numOfCopies > entry.getNumOfCopies()) {
                 throw std::runtime_error("Can't remove more copies than there are in stock");
             }
@@ -161,4 +156,3 @@ std::vector<BookEntry> BookRepository::searchByAuthor(std::vector<BookEntry> &en
     }
     return result;
 }
-

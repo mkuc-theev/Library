@@ -1,8 +1,3 @@
-//
-// Created by steam on 1/28/2024.
-//
-
-
 #include <list>
 #include "headers/CLIHandler.h"
 
@@ -69,7 +64,7 @@ void CLIHandler::mainMenu() {
         cinClear();
         switch (userInput) {
             case 1:
-                entryListMenu(bookRepository.getBookEntries());
+                entryListMenu();
                 break;
             case 2:
                 entryAddMenu();
@@ -92,13 +87,14 @@ void CLIHandler::mainMenu() {
     } while (userInput != 99);
 }
 
-void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
-    if (entries.empty()) {
+void CLIHandler::entryListMenu() {
+    if (bookRepository.getBookEntries().empty()) {
         std::cout << "\nThe book repository is empty. Add books manually or import a repository from a file to view this menu.\n\n";
         enterToContinue();
         return;
     }
-    std::vector<BookEntry> &currentList = entries;
+
+    std::vector<BookEntry> currentList = bookRepository.getBookEntries();
     std::string userInput;
     do {
         printEntryList(currentList);
@@ -124,13 +120,14 @@ void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
         if (userInput == "exit") {
             continue;
         }
+        //Check if input was a number, try to access one of the listed entries
         std::regex integer_regex("^\\d+$");
         if (std::regex_match(userInput, integer_regex)) {
             int index;
             try {
                 index = std::stoi(userInput, nullptr, 10) - 1;
                 if (index < 0 || index >= currentList.size()) {
-                    throw std::out_of_range("");
+                    throw std::out_of_range("Trying to access index out of bounds!");
                 }
             } catch (std::exception &e) {
                 std::cout << "\n======= Invalid numerical input! =======\n";
@@ -138,7 +135,18 @@ void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
                 enterToContinue();
                 continue;
             }
-            entryViewMenu(currentList.at(index));
+            //Find selected entry in main repository
+            auto foundIterator = std::find(
+                    bookRepository.getBookEntries().begin(),
+                    bookRepository.getBookEntries().end(),
+                    currentList.at(index)
+                    );
+            if(foundIterator != bookRepository.getBookEntries().end()) {
+                entryViewMenu(*foundIterator);
+                currentList = bookRepository.getBookEntries();
+            } else {
+                throw std::runtime_error("Tried to access nonexistent entry!");
+            }
         } else if (userInput == "title") {
             currentList = searchByTitle(currentList);
         } else if (userInput == "author") {
@@ -148,7 +156,7 @@ void CLIHandler::entryListMenu(std::vector<BookEntry> &entries) {
         } else if (userInput == "genre") {
             currentList = searchByGenre(currentList);
         } else if (userInput == "reset") {
-            currentList = entries;
+            currentList = bookRepository.getBookEntries();
         } else if (userInput == "sort") {
             currentList = sortMenu(currentList);
         } else {
@@ -487,7 +495,7 @@ std::set<Genre> CLIHandler::genreSetBuilder(std::set<Genre> &genres) {
     int userInput;
     int index;
     std::set<Genre> result = genres;
-
+    //Construct vector of genre string representations for easier printing to console
     std::vector<std::string> availableGenres;
     availableGenres.reserve(genreStringMap.size());
     for (auto &genre: genreStringMap) {
@@ -529,6 +537,7 @@ std::set<Genre> CLIHandler::genreSetBuilder(std::set<Genre> &genres) {
             }
             break;
         }
+        //If chosen genre is not part of the set, add it. If it is, remove it.
         Genre chosenGenre = GenreFromString(availableGenres.at(index));
         auto foundGenre = result.find(chosenGenre);
         if (foundGenre == result.end()) {
@@ -658,5 +667,3 @@ void CLIHandler::helpScreen() {
               << "-h - Show this help message.\n\n";
     enterToContinue();
 }
-
-

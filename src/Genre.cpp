@@ -1,6 +1,3 @@
-//
-// Created by steam on 1/26/2024.
-//
 #include "headers/Genre.h"
 
 std::string GenreToString(Genre genre) {

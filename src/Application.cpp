@@ -1,7 +1,3 @@
-//
-// Created by steam on 1/28/2024.
-//
-
 #include "headers/Application.h"
 
 Application::Application(int &argc, char **argv)
@@ -11,7 +7,6 @@ Application::Application(int &argc, char **argv)
           cliHandler(CLIHandler(bookRepository)) {}
 
 void Application::run() {
-
     if (settings.isHelpMode()) {
         CLIHandler::helpScreen();
         return;
@@ -24,6 +19,4 @@ void Application::run() {
     } catch (std::exception &e) {
         throw e;
     }
-
 }
-

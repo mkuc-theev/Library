@@ -1,7 +1,3 @@
-//
-// Created by Michał Kuć on 18/12/2023.
-//
-
 #ifndef LIBRARY_BOOKENTRY_H
 #define LIBRARY_BOOKENTRY_H
 #include "Genre.h"
@@ -119,7 +115,7 @@ std::set<Genre> &getGenres();
  * @param book The BookEntry object to check this BookEntry against.
  * @return true if the BookEntry objects represent the same book, otherwise false.
  */
-bool equals(BookEntry& book);
+bool operator==(BookEntry book) const;
 
 /**
  * Compares the titles of two BookEntry objects.
@@ -161,6 +157,5 @@ static bool compareReleaseYear(const BookEntry &entryA, const BookEntry &entryB)
  */
 static bool compareNumOfCopies(const BookEntry &entryA, const BookEntry &entryB);
 };
-
 
 #endif //LIBRARY_BOOKENTRY_H

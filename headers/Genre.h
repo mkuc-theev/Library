@@ -1,13 +1,10 @@
-//
-// Created by Michał Kuć on 18/12/2023.
-//
-
 #ifndef LIBRARY_GENRE_H
 #define LIBRARY_GENRE_H
 
 #include <iostream>
 #include <string>
 #include <map>
+
 /**
  * Enumeration of genre tags allowed by the program.
  */

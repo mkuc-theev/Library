@@ -1,7 +1,3 @@
-//
-// Created by steam on 1/26/2024.
-//
-
 #ifndef LIBRARY_BOOKREPOSITORY_H
 #define LIBRARY_BOOKREPOSITORY_H
 
@@ -10,6 +6,7 @@
 #include <vector>
 #include <regex>
 #include <functional>
+
 /**
  * Data repository containing BookEntry objects and allowing operations on stored values.
  */
@@ -33,7 +30,7 @@ BookRepository();
  * if both entries refer to the same book.
  * @param newEntry The BookEntry object to add or increment.
  */
-void addBookEntry(BookEntry newEntry);
+void addBookEntry(const BookEntry& newEntry);
 
 /**
  * Changes the number of copies of a book in the repository. Deletes the entry if the resulting number of copies is 0.
@@ -106,6 +103,5 @@ static std::vector<BookEntry> insertionSort(
         bool (*comparator)(const BookEntry &, const BookEntry &));
 
 };
-
 
 #endif //LIBRARY_BOOKREPOSITORY_H

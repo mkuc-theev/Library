@@ -1,8 +1,3 @@
-//
-// Created by steam on 1/26/2024.
-//
-
-
 #include "headers/TSVHandler.h"
 
 namespace TSVHandler {
@@ -31,9 +26,10 @@ namespace TSVHandler {
             if (std::regex_match(token, negativeNumberRegex)) {
                 throw std::ios_base::failure("Negative numerical value found in input file!");
             }
-            tokens.push_back(entryString.substr(0, pos));
+            tokens.push_back(token);
             entryString.erase(0, pos + 1);
         }
+        //After tokenization, all that's left in the entry string is the last token
         tokens.push_back(entryString);
         try {
             return {
@@ -81,6 +77,7 @@ namespace TSVHandler {
         std::stringstream ss;
         std::set<Genre>::iterator itr;
         for (itr = genres.begin(); itr != genres.end(); ++itr) {
+            //Ternary operator for putting '|' between genres but not after the last one
             ss << GenreToString(*itr) << (itr == --genres.end() ? "" : "|");
         }
         return ss.str();
@@ -90,6 +87,7 @@ namespace TSVHandler {
         std::set<Genre> result;
         size_t pos;
         try {
+            //Similar tokenizer to the deserializeBookEntry function.
             while ((pos = genresString.find('|')) != std::string::npos) {
                 result.insert(
                         GenreFromString(

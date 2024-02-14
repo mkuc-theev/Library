@@ -27,10 +27,11 @@ const std::string &ProgramSettings::getExportPath() const {
 
 ProgramSettings::ProgramSettings(const int &argc, char **argv) {
     for (int i = 1; i < argc; ++i) {
+        //Flag must begin with a hyphen and be 2 characters long.
         if (strlen(argv[i]) != 2 || argv[i][0] != '-') {
             throw std::invalid_argument("Error in command line parameters. Use '-h' or '-H' for help.");
         }
-
+        //For flags with extra arguments, ++i is used to increment the loop variable before accessing argv.
         switch (argv[i][1]) {
             case 'i': case 'I':
                 importMode = true;

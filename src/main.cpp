@@ -4,7 +4,6 @@
 #include "headers/CLIHandler.h"
 #include "headers/Application.h"
 
-
 int main(int argc, char **argv) {
     try {
         Application app = Application(argc, argv);

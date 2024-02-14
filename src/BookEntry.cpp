@@ -1,7 +1,3 @@
-//
-// Created by Michał Kuć on 18/12/2023.
-//
-
 #include "headers/BookEntry.h"
 #include <utility>
 #include <sstream>
@@ -53,7 +49,7 @@ std::set<Genre> &BookEntry::getGenres() {
     return genres;
 }
 
-bool BookEntry::equals(BookEntry &book) {
+bool BookEntry::operator==(BookEntry book) const {
     return (
             title == book.getTitle() &&
             author == book.getAuthor() &&
@@ -87,7 +83,6 @@ void BookEntry::setGenres(const std::set<Genre> &newGenres) {
     this->genres = newGenres;
 }
 
-
 bool BookEntry::compareTitle(const BookEntry &entryA, const BookEntry &entryB) {
     return entryA.title <= entryB.title;
 }
@@ -104,8 +99,6 @@ bool BookEntry::compareReleaseYear(const BookEntry &entryA, const BookEntry &ent
     return entryA.releaseYear <= entryB.releaseYear;
 }
 
-
 bool BookEntry::compareNumOfCopies(const BookEntry &entryA, const BookEntry &entryB) {
     return entryA.numOfCopies <= entryB.numOfCopies;
 }
-
